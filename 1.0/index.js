@@ -503,7 +503,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                     footer = menuEl.one(".ks-combobox-menu-footer");
                 if(footerCfg){
                     if (!footer) {
-                        footer = new S.Node("<div class='ks-combobox-menu-footer'></div>").appendTo(menuEl);
+                        footer = new Node("<div class='ks-combobox-menu-footer'></div>").appendTo(menuEl);
                     }
                     footer.empty().append(footerCfg.tmpl);
                     var historyClean = footer.one(".ks-menu-history-clean");
@@ -514,7 +514,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                             History._cleanHistory();
                         })
                     }
-                    var tdgBtn = footer.one(".tdg-btn");
+                    var tdgBtn = DOM.one(footer,".tdg-btn");
                     if(tdgBtn){
                         tdgBtn.on("click",function(){
                             var tdgInputs = Node.all(".tdg-input",footer),
