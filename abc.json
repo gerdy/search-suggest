@@ -1,0 +1,13 @@
+{
+    "name": "search-suggest",
+    "version": "1.0",
+    "desc": "基于comboBox的搜索下拉提示",
+    "cover": "",
+    "author": {
+        "name": "yuncong",
+        "email": "yuncong.hk@taobao.com",
+        "page": "https://github.com/gerdy"
+    },
+    "type": "kissy-pie",
+    "type-url": "http://abc.alibaba-inc.com/r/kissy-pie"
+}

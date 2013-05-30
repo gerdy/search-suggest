@@ -1,0 +1,181 @@
+KISSY.add(function(S,Base,DOM,Event,ComboBox){
+    function Tab(config) {
+        Tab.superclass.constructor.call(this, config || {});
+    }
+    S.extend(Tab, Base,{
+        pluginInitializer:function(sug){
+            this._initPluginEvent.call(this,sug);
+        },
+        tabClick: function(e){
+            var self = this,
+                sug = self.get("caller"),
+                target = e.currentTarget,
+                type = DOM.attr(target,"data-searchtype"),
+                empty = DOM.attr(target,"data-empty"),
+                action = DOM.attr(target,"data-action"),
+                tabCfg;
+            //切换tab高亮的class
+            DOM.removeClass(DOM.siblings(target),"selected");
+            DOM.addClass(target,"selected");
+            if(type){
+                tabCfg = self.getDefCfg(type);
+                tabCfg.action = action;
+                sug.update(tabCfg);
+            }else{
+                var query = sug.query||sug.comboBox.get("input").val(),
+                    aNode = DOM.get("a",target);
+                if(aNode){
+                    var href = DOM.attr(aNode,"href");
+                    //因为默认情况下,shopsearch的链接是没有search的,所以当有q时,需要拼接
+                    href = href.replace("/?","/search?");
+                    href = href + "&q="+query;
+                    DOM.attr(aNode,"href",href);
+                }
+            }
+            e.preventDefault();
+        },
+        _initPluginEvent: function(sug){
+            var self = this,
+                sugCfg = sug.get("sugConfig"),
+                selectors = sugCfg.tablist;
+            self.set("caller",sug);
+            if(!selectors) return;
+            Event.on(selectors,"click",self.tabClick,self);
+        },
+        update: function(config){
+            var self = this,
+                sug = self.get("caller"),
+                comboBox = sug.comboBox,
+                index = config.tab,
+                cachedData = sug.configArr[index],
+                dataSource,
+                dataSourceCfg,xhrCfg,
+                sugConfig = config.sugConfig,
+                input = comboBox.get("input"),
+                form = DOM.parent(input,"form");
+            sug.configArr = sug.configArr||[];
+            dataSourceCfg = sug.get("dataSourceCfg");
+            xhrCfg = dataSourceCfg.xhrCfg;
+            xhrCfg.url = sugConfig.sourceUrl;
+            S.mix(sug.__attrVals,config,{deep: true});
+            //如果cachedData存在，则调用cachedData
+            if(!cachedData){
+                //如果是没有远程数据，则调用本地数据源,构造一个空的数据
+                if(xhrCfg.url === ""){
+                    cachedData = sug.configArr[index]={
+                        data: new ComboBox.LocalDataSource({
+                            data:{},
+                            parse: dataSourceCfg.parse
+                        })
+                    }
+                }else{
+                    cachedData = sug.configArr[index] = {
+                        data: new ComboBox.RemoteDataSource(dataSourceCfg)
+                    }
+                }
+            }else{
+                dataSource =  cachedData.data;
+            }
+            comboBox.set("dataSource",cachedData.data);
+            //切换action
+            if(form) DOM.attr(form,"action",config.action);
+            //切换tab时，默认展开下拉提示
+            input[0].focus();
+            comboBox.sendRequest(sug.query);
+        },
+        /**
+         * 获取预定义的配置
+         * @param type
+         * @returns {Object} tabCfg
+         */
+        getDefCfg:function(type){
+            var tabCfg;
+            switch(type) {
+                case "shop": {
+                    tabCfg = {
+                        "sugConfig":{
+                            "sourceUrl":"http://suggest.taobao.com/sug?area=ssrch",
+                            "resultFormat": '',
+                            "tab":"shop"
+                        },
+                        "extra":{
+                            "tel": false,
+                            "cat": false,
+                            "new": false,
+                            "jipiao": false,
+                            "shop": false,
+                            "tdg": false,
+                            "showExtra": true
+                        },
+                        "action":"http://shopsearch.taobao.com/search",
+                        tab:"shop"
+                    }
+                } break;
+                case "item": {
+                    tabCfg = {
+                        sugConfig: {
+                            "sourceUrl": "http://suggest.taobao.com/sug",
+                            "resultFormat": '约{count}个宝贝',
+                            "tab":"item"
+                        },
+                        extra:{
+                            "tel": true,
+                            "cat": true,
+                            "global": true,
+                            "new": true,
+                            "shop": true,
+                            "jipiao": true,
+                            "tdg": true
+                        },
+                        action:"http://s.taobao.com/search"
+                    }
+                } break;
+                case "mall": {
+                    tabCfg = {
+                        sugConfig: {
+                            "sourceUrl": "http://suggest.taobao.com/sug?area=b2c",
+                            "resultFormat": '约{count}个宝贝',
+                            "tab":"mall"
+                        },
+                        extra: {
+                            "tel": false,
+                            "cat": true,
+                            "new": false,
+                            "jipiao": false,
+                            "shop": false,
+                            "tdg": true,
+                            "showExtra": true
+                        },
+                        action:"http://list.tmall.com/search_product.htm"
+                    }
+                } break;
+                default:{
+                    if(S.isObject(type)){
+                        tabCfg = type;
+                        //当sugConfig不存在时，赋值
+                        if(!tabCfg.sugConfig) tabCfg.sugConfig = {};
+                    }else{
+                        S.log("配置有误");
+                        return;
+                    }
+                }
+            }
+            //todo 当sugConfig没有配置时，会报错
+
+            if(tabCfg.sugConfig&&!tabCfg.sugConfig.tab) tabCfg.sugConfig.tab = tabCfg.sugConfig.sourceUrl;
+            return tabCfg;
+        }
+    },{
+        ATTRS : {
+            pluginId: {
+                value: 'tab'
+            },
+            caller:{
+                value: null
+            }
+        }
+    });
+    return Tab;
+},{
+    requires:["base","dom","event","combobox"]
+})
