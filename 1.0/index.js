@@ -514,7 +514,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                             History._cleanHistory();
                         })
                     }
-                    var tdgBtn = DOM.one(footer,".tdg-btn");
+                    var tdgBtn = footer.one(".tdg-btn");
                     if(tdgBtn){
                         tdgBtn.on("click",function(){
                             var tdgInputs = Node.all(".tdg-input",footer),
@@ -637,7 +637,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
         }
     }});
     return SearchSuggest;
-}, {requires:['node', 'rich-base','dom','combobox','./plugin/mods','./new.css']});
+}, {requires:['node', 'rich-base','dom','combobox','./plugin/mods','./new.css','./searchbox.css']});
 
 
 

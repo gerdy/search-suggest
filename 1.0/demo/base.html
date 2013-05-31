@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gbk"/>
+<title>新样式</title>
+<script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
+</head>
+<body>
+<h2>demo标题</h2>
+
+<div class="search" id="J_Search" role="search">
+    <div class="search-panel ks-switchable-content">
+        <form target="_top" action="http://s.taobao.com/search" name="search" id="J_TSearchForm" class="search-panel-focused">
+            <div class="search-button">
+                <button class="btn-search" type="submit">搜 索</button>
+            </div>
+            <div class="search-panel-fields">
+                <label for="q"><!-- TMS fp2012/search_tips.php -->搜“<span>家装节</span>”试试，3折起盛宴！<!-- END --></label>
+                <input id="q" name="q" accesskey="s" autofocus="true" autocomplete="off" x-webkit-speech=""
+                       x-webkit-grammar="builtin:translate">
+            </div>
+            <input type="hidden" name="commend" value="all">
+            <input type="hidden" name="ssid" value="s5-e" autocomplete="off">
+            <input type="hidden" name="search_type" value="mall" autocomplete="off">
+            <input type="hidden" name="sourceId" value="tb.index">
+            <input type="hidden" name="spm" value="1.1000386.5803581.d4908513">
+            <!--[if lt IE 9]><s class="search-fix search-fix-panellt"></s><s class="search-fix search-fix-panellb"></s>
+            <![endif]-->
+        </form>
+    </div>
+</div>
+<script>
+    var S = KISSY;
+    S.Config.debug = true;
+    if (S.Config.debug) {
+        var srcPath = "../../../";
+        S.config({
+            packages: [
+                {
+                    name: "gallery",
+                    path: srcPath,
+                    charset: "utf-8",
+                    ignorePackageNameInUri: true
+                }
+            ]
+        });
+        window.TB = {
+            Global: {
+                isLogin: function () {
+                    return true;
+                }
+            }
+        };
+    }
+    //代码开始
+    var pre = "gallery/search-suggest/1.0/",
+            mods = [ pre + 'index'],
+
+            srhSuggestCfg = {
+                "extra": {
+                    "history": !!window.TB && window.TB.Global.isLogin()
+                            && !!(mods.push
+                            ('plugin/history')),
+                    "telephone": !!window.TB && window.TB.Global.isLogin()
+                            && !!(mods.push
+                            ('plugin/telephone')),
+                    "cat": true,
+                    "global": true,
+                    "new": true,
+                    "shop": true,
+                    "jipiao": true,
+                    "tdg": true,
+                    "tab": !!(mods.push
+                            ('plugin/tab')),
+                    "tipsNotice": !!(mods.push
+                            ('plugin/tips-notice'))
+                },
+                "mods": {
+                    "tab": {
+                        "activeCls": "selected"
+                    }
+                },
+                "sugConfig": {
+                    extraParams: "",
+                    sourceUrl: "http://suggest.taobao.com/sug",
+                    node: "#q",
+                    focused: true,
+                    //由于只支持简单的选择器，所以给这里加一个id
+                    tablist: "#J_SearchTab li"
+                }
+            };
+    S.use(mods.join("," + pre), function (S, SearchSuggest) {
+        var DOM = S.DOM, sug = new SearchSuggest(srhSuggestCfg);
+        while (arguments.length > 2) {
+            sug.plug(new (Array.prototype.pop.call(arguments)));
+        }
+        sug.getPlugin("tipsNotice");
+        sug.on("beforeFocus", function () {
+            var input = sug.get("input"),
+                    //获取form
+                    form = DOM.parent(input,"form"),
+            //获取搜索框底纹
+                    inputWrap = DOM.parent(input, 2),
+                    label = DOM.prev(inputWrap, "label"),
+            //底纹上的放大镜图片
+                    sImg = DOM.next(inputWrap, "s");
+            DOM.hide([label]);
+            form.className = "search-panel-focused";
+
+        })
+        sug.on("beforeBlur", function () {
+            var input = sug.get("input"),
+                    form = DOM.parent(input,"form"),
+            //获取搜索框底纹
+                    inputWrap = DOM.parent(input, 2),
+            //底纹
+                    label = DOM.prev(inputWrap, "label"),
+            //底纹上的放大镜图片
+                    sImg = DOM.next(inputWrap, "s");
+            if (S.trim(sug.query) === "") {
+                DOM.show([label]);
+            }
+            form.className ="";
+        })
+    })
+</script>
+
+</body>
+</html>

@@ -4,226 +4,6 @@
 <meta charset="gbk"/>
 <title>新样式</title>
 <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
-<style>
-body {
-    font: 12px/1.5 tahoma, arial, "宋体b8b\4f53";
-}
-
-.search {
-    margin: 50px;
-}
-
-a {
-    color: #3e3e3e;
-    font-size: 12px;
-    text-decoration: none;
-}
-
-ul {
-    margin: 0;
-    padding: 0;
-}
-
-li {
-    list-style-type: none;
-}
-
-.search-panel button, .search-panel-fields s, .search-fix, .help-guest a, .product-list, .tmall-interlayer-title, .tmall-slide-left, a.tmall-slide-left:hover, .tmall-slide-right, a.tmall-slide-right:hover, .guang-topics ol, p.hotsale-free-sent {
-    background: url(http://img03.taobaocdn.com/tps/i3/T1ZeuRXaFtXXXXXXXX-300-429.png) no-repeat;
-}
-
-.search {
-    width: 666px;
-    float: left;
-    height: 113px
-}
-
-.search-triggers ul {
-    overflow: hidden;
-    zoom: 1
-}
-
-.search-triggers li {
-    position: relative;
-    zoom: 1;
-    float: left
-}
-
-.search-triggers li a {
-    float: left;
-    height: 23px;
-    line-height: 23px;
-    padding: 0 12px;
-    color: #333;
-}
-
-.search-triggers li a:hover span {
-    color: #F60 !important
-}
-
-.search-triggers li.selected a {
-    background: #ff5700;
-    font-weight: bold;
-    padding: 0 15px;
-    color: #fff;
-    border-radius: 1px 1px 0 0
-}
-
-.search-triggers li.selected a span {
-    color: #fff !important
-}
-
-.search-triggers li.selected a:hover span {
-    color: #fff !important
-}
-
-.search-triggers li.selected a:hover {
-    color: #fff !important;
-    text-decoration: none
-}
-
-.search-triggers .search-fix {
-    display: none
-}
-
-.search-triggers li.selected .search-fix {
-    display: block
-}
-
-.search-panel {
-    position: relative;
-    zoom: 1;
-    float: left;
-    width: 603px
-}
-
-.search-panel-fields {
-    width: 470px;
-    height: 34px;
-    float: left;
-    position: relative;
-    zoom: 1;
-    background: #ff5700;
-}
-
-
-.search-panel-fields label {
-    position: absolute;
-    left: 15px;
-    top: 8px;
-    z-index: 1;
-    color: #999;
-}
-
-.search-panel-fields input {
-    font-size: 14px;
-    position: absolute;
-    left: 3px;
-    top: 3px;
-    width: 457px;
-    height: 18px;
-    line-height: 18px;
-    padding: 5px;
-    background: #fff;
-    vertical-align: middle;
-    border: 0;
-}
-
-.search-panel button {
-    float: left;
-    width: 133px;
-    height: 34px;
-    cursor: pointer;
-    border: 0;
-    font-size: 18px;
-    color: #fff;
-    background-color: #f27b04;
-    background-position: 0 -327px;
-    text-indent: -999em
-}
-
-.search-panel button:hover {
-    background-position: 0 -361px
-}
-
-.search-panel button:active {
-    background-position: 0 -395px
-}
-
-.search-tips {
-    float: left;
-    width: 60px;
-    height: 34px;
-    overflow: hidden;
-    text-align: right;
-    margin-top: -1px
-}
-
-.search-hots {
-    clear: both;
-    font: 12px/1.5 arial;
-    padding: 10px 5px 5px;
-    color: #3f3f3f;
-+ padding-top : 5 px
-}
-
-.search-hots a {
-    color: #666;
-    margin-right: 6px
-}
-
-.search-hots .more {
-    margin-left: 6px;
-    _padding-top: 2px
-}
-
-.search-fix {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    font-size: 0
-}
-
-.search-fix-panellt {
-    left: 3px;
-    top: 3px;
-    background-position: -148px -349px
-}
-
-.search-fix-panellb {
-    left: 0;
-    bottom: 0;
-    background-position: -146px -349px
-}
-
-.search-fix-triggerlt {
-    left: 0;
-    top: 0;
-    background-position: -146px -351px
-}
-
-.search-fix-triggerrt {
-    right: 0;
-    top: 0;
-    background-position: -148px -351px
-}
-
-.search-status-focus label, .search-status-focus .search-panel-fields s {
-    display: none
-}
-
-.ks-combobox {
-    margin-left: 3px;
-}
-
-.search-panel-fields .ks-combobox input {
-    left: 0;
-}
-
-.search-panel-fields label {
-    display: none;
-}
-</style>
 </head>
 <body>
 <h2>demo标题</h2>
@@ -245,13 +25,15 @@ li {
         </ul>
     </div>
     <div class="search-panel ks-switchable-content">
-        <form target="_top" action="http://s.taobao.com/search" name="search" id="J_TSearchForm">
-            <div class="search-panel-fields">
+        <form target="_top" action="http://s.taobao.com/search" name="search" id="J_TSearchForm" class="search-panel-focused">
+            <div class="search-button">
+                <button class="btn-search" type="submit">搜 索</button>
+            </div>
+            <div class="search-panel-fields search-common-panel">
                 <label for="q"><!-- TMS fp2012/search_tips.php -->搜“<span>家装节</span>”试试，3折起盛宴！<!-- END --></label>
                 <input id="q" name="q" accesskey="s" autofocus="true" autocomplete="off" x-webkit-speech=""
                        x-webkit-grammar="builtin:translate">
             </div>
-            <button type="submit">搜 索</button>
             <input type="hidden" name="commend" value="all">
             <input type="hidden" name="ssid" value="s5-e" autocomplete="off">
             <input type="hidden" name="search_type" value="mall" autocomplete="off">
@@ -330,15 +112,20 @@ li {
         sug.getPlugin("tipsNotice");
         sug.on("beforeFocus", function () {
             var input = sug.get("input"),
+                    //获取form
+                    form = DOM.parent(input,"form"),
             //获取搜索框底纹
                     inputWrap = DOM.parent(input, 2),
                     label = DOM.prev(inputWrap, "label"),
             //底纹上的放大镜图片
                     sImg = DOM.next(inputWrap, "s");
             DOM.hide([label]);
+            form.className = "search-panel-focused";
+
         })
         sug.on("beforeBlur", function () {
             var input = sug.get("input"),
+                    form = DOM.parent(input,"form"),
             //获取搜索框底纹
                     inputWrap = DOM.parent(input, 2),
             //底纹
@@ -347,8 +134,8 @@ li {
                     sImg = DOM.next(inputWrap, "s");
             if (S.trim(sug.query) === "") {
                 DOM.show([label]);
-
             }
+            form.className ="";
         })
     })
 </script>
