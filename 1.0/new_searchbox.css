@@ -102,6 +102,14 @@ li {
 .ks-combobox-input-wrap{
     margin-right: 3px;
 }
+/* 搜本店 */
+.search-panel button.btn-searchshop{
+    background-image: url("demo/images/bg-btn-searchshop.png");
+    margin-left: 3px;
+}
+.search-panel button.btn-searchshop:hover{
+    background-image: url("demo/images/bg-btn-searchshop-hover.png");
+}
 /* list的样式 */
 .search-type{
     position: relative;
@@ -163,6 +171,9 @@ li {
     background-image: url("demo/images/bg-btn-searchall.png");
     margin-left: 3px;
 }
+.search-panel button.btn-searchall:hover{
+    background-image: url("demo/images/bg-btn-searchall-hover.png");
+}
 .search-panel button.btn-list{
     background-image: url("demo/images/bg-btn-list.png");
 }
@@ -220,6 +231,9 @@ li {
 }
 .search-panel button.btn-search{
     background-image: url("demo/images/bg-btn-search.png");
+}
+.search-panel button.btn-search:hover{
+    background-image: url("demo/images/bg-btn-search-hover.png");
 }
 .search-panel-focused .search-panel-fields,
 .search-common-panel{

@@ -29,6 +29,10 @@ module.exports = function(grunt) {
                     {
                         src: "<%= pkg.version %>/index.js",
                         dest: "<%= pkg.version %>/build/index.js"
+                    },
+                    {
+                        src: "<%= pkg.version %>/plugin/history.js",
+                        dest: "<%= pkg.version %>/build/plugin/history.js"
                     }
 
                 ]
@@ -45,7 +49,8 @@ module.exports = function(grunt) {
             },
             base: {
                 files: {
-                    '<%= pkg.version %>/build/index-min.js': ['<%= pkg.version %>/build/index.js']
+                    '<%= pkg.version %>/build/index-min.js': ['<%= pkg.version %>/build/index.js'],
+                    '<%= pkg.version %>/build/plugin/history-min.js': ['<%= pkg.version %>/build/plugin/history.js']
                 }
             }
         }
@@ -54,5 +59,5 @@ module.exports = function(grunt) {
     // 使用到的任务，可以增加其他任务
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-kmc');
-    return grunt.registerTask('default', ['kmc', 'uglify']);
+    return grunt.registerTask('default', ['uglify']);
 };
