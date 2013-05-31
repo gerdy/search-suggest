@@ -637,7 +637,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
         }
     }});
     return SearchSuggest;
-}, {requires:['node', 'rich-base','dom','combobox','./plugin/mods','./new.css','./searchbox.css']});
+}, {requires:['node', 'rich-base','dom','combobox','./plugin/mods']});
 
 
 
