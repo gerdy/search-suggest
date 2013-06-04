@@ -5,24 +5,31 @@ KISSY.add(function(){
                 'data-key="suggest=new_{$index}&tab=shopping&auction_tag[]=1154">' +
                 '<span class="ks-menu-xp-tag">新品</span>' +
                 '<span class="ks-menu-xp-icon">新品</span>' +
-            '<span class="ks-menu-xp">“{$query}”相关{new}新品</span></div>'
+            '<span class="ks-menu-xp">“{$query}”相关{new}新品</span></div>',
+            "index": 6
         },
         "shop":{
             "tmpl": '<div class="item-wrapper ks-menu-extras-dp" ' +
                 'data-action="http://shopsearch.taobao.com/search" data-key="suggest=shop_{$index}">' +
                 '<span class="ks-menu-dp-tag">店铺</span>' +
                 '<span class="ks-menu-dp-icon">店铺</span>' +
-            '<span class="ks-menu-dp">“{$query}”相关店铺</span></div>'
+            '<span class="ks-menu-dp">“{$query}”相关店铺</span></div>',
+            "index": 7
         },
         "cat":{
             "tmpl": '<div class="ks-menu-extras-cate" data-key="cat={$1}&suggest=cat_{$index}">' +
                 '<span class="ks-menu-key">{$query}</span>' +
-            '<span class="ks-menu-cate">在<b>{$0}</b>分类下搜索</span></div>'
+            '<span class="ks-menu-cate">在<b>{$0}</b>分类下搜索</span></div>',
+            "index": 3
+        },
+        "list":{
+            "index": 5
         },
         "global":{
             "tmpl": '<div class="ks-menu-extras-cate" data-key="promote=2097152&suggest=global_{$index}">' +
                 '<span class="ks-menu-key">{$query}</span>' +
-            '<span class="ks-menu-cate">在全球购市场中搜索</span></div>'
+            '<span class="ks-menu-cate">在全球购市场中搜索</span></div>',
+            "index": 4
         },
         "tdg":{
             "pos": 'footer',
@@ -36,7 +43,8 @@ KISSY.add(function(){
                 '<em>+</em>' +
                 '<input type="text" value="{$query2}" class="tdg-input" tabindex="2" placeholder="另一宝贝" />' +
                 '<button class="tdg-btn" type="submit" tabindex="3">搜索</button></form></div>',
-                "always": true
+            "always": true,
+            "index": 9
         },
         "jipiao":{
             "pos":'footer',
@@ -47,7 +55,9 @@ KISSY.add(function(){
                 '<em>日期</em><input type="text" class="jp-input J_Jp-et"  tabindex="2" value="{$date}">' +
                 '<input type="hidden" id = "J_JipiaoEt" class="J_Jp-et" name="jp_et" value="">' +
                 '<input id="J_JiPiaoForm" class="J_Jp-query" type="hidden" name="q" value="{$query}">' +
-            '<button type="submit" class="jp-btn">搜索</button></form></div>'
-        }
+            '<button type="submit" class="jp-btn">搜索</button></form></div>',
+            "index": 8
+        },
+        "showExtra": false
     };
 })

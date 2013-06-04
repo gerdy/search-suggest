@@ -1,0 +1,351 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="gbk"/>
+<title>新样式</title>
+<script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
+    <link href="../new_searchbox.css" rel="stylesheet"/>
+    <style>
+            /* 顶部导航 */
+        .mt-nav {
+            float: right;
+            width: 786px;
+            background: #ff5500;
+            border-radius:3px;
+            -moz-border-radius: 3px;
+            *zoom: 1;
+        }
+
+        .mt-nav:after {
+            content: '\0020';
+            display: block;
+            clear: both;
+            height: 0;
+        }
+
+
+        .mt-nav li:first-child{
+            border-radius:3px;
+            -moz-border-radius: 3px;
+        }
+        .mt-nav li {
+            position: relative;
+            float: left;
+            cursor: pointer;
+            z-index: 1;
+            height: 36px;
+            font: 400 14px/36px tahoma;
+            line-height:39px\9;
+            font-weight: 700;
+            text-shadow: 1px 1px 1px #C9421F;
+
+        }
+
+        .mt-nav li:hover,
+        .mt-nav li.hover {
+            background: #e53104;
+        }
+
+        .mt-nav li.selected {
+            background: #e53104;
+        }
+
+        .mt-nav li a:link,
+        .mt-nav li a:visited{
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            padding: 0 17px;
+            color: #fff1d5;
+        }
+
+        .mt-nav li.selected a:link,
+        .mt-nav li.selected a:visited,
+        .mt-nav li.selected a:hover {
+            color: #fff;
+        }
+
+        .mt-nav b {
+            position: absolute;
+            overflow: hidden;
+            width: 16px;
+            height: 16px;
+            top: 15px;
+            right: 7px;
+            background-position: -999px -999px;
+            _top: 13px;
+        }
+
+        .mt-nav li.hover b,
+        .mt-nav li:hover b {
+            background-position: 4px 6px;
+        }
+
+        .mt-nav li.hover b.hover,
+        .mt-nav li:hover b:hover {
+            width: 14px;
+            height: 14px;
+
+            background-position: 3px 5px;
+
+            background-color: #f35600;
+            border: 1px solid #f35600;
+            border-radius: 2px;
+        }
+        .mt-nav .mt-nav-sub-wrap{
+            position:relative;
+        }
+        .mt-nav .mt-nav-sub-wrap a.mt-nav-parent{
+            background:#fff;
+            border:1px solid #c1c1c1;
+            padding:0 16px;
+            border-bottom:0px none;
+            margin-top:3px;
+            line-height:33px;
+            color:#555;
+            text-shadow:none;
+            box-shadow: 0 0px 1px #f0f0f0;
+        }
+
+        .mt-nav .mt-nav-sub {
+            position: absolute;
+            z-index: 3;
+            border: 1px solid #c1c1c1;
+            border-top:0px none;
+            background: #fff;
+            padding: 5px 0;
+            top: 36px;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 1px 1px #f0f0f0;
+            text-shadow:none;
+            width:114px;
+        }
+
+        .mt-nav .mt-nav-sub a:link,
+        .mt-nav .mt-nav-sub a:visited {
+            display: block;
+            text-decoration: none;
+            height: 24px;
+            font-size: 12px;
+            font-weight:normal;
+            line-height: 24px;
+            padding: 0;
+            color: #666;
+            text-align: left;
+            text-indent:17px;
+        }
+
+        .mt-nav .mt-nav-sub a:hover {
+            background: #f0f0f0;
+        }
+
+        .mt-nav .home a {
+            text-indent: -18px;
+        }
+
+            /* 返回旧版 */
+        .mt-old-version {
+            float: right;
+            margin: 8px 10px 0 0;
+
+            *display: inline;
+        }
+
+        .mt-old-version a:link,
+        .mt-old-version a:visited,
+        .mt-old-version a:hover {
+            color: #FFe4b5;
+        }
+        /*样式开始 */
+        .hide{
+            display: none !important;
+        }
+        .search-sns-panel-field{
+            width: 322px;
+            float: right;
+            background: white;
+            height: 27px;
+            margin-top: 4px;
+            margin-right: 4px;
+        }
+        .search-sns-panel-field .search-panel-fields{
+            margin-right: 72px;
+        }
+        .search-sns-panel-field label{
+            top: 5px;
+        }
+        .search-sns-panel-field button.btn-search{
+            text-indent: 0;
+            font-size: 12px;
+            color: #666;
+            background: #f5f5f5;
+            height: 27px;
+            width: 72px;
+            border-left: 1px solid #d9d9d9;
+        }
+        .search-sns-panel-field .search-panel-fields{
+            height: 27px;
+        }
+        .search-sns-panel-field .ks-combobox{
+            margin-left: 0;
+        }
+        .search-sns-panel-field .ks-combobox-input-wrap{
+            height: 27px;
+         }
+        .search-sns-panel-field .ks-combobox-input{
+            top: 0;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+<h2>demo标题</h2>
+
+<nav class="mt-nav">
+    <ul id="J_MtMainNav">
+        <li class="selected">
+            <a href="http://i.taobao.com/my_taobao.htm?tracelog=mytaobaonavindex&amp;nekot=1369986803458" data-spm="d1000352">首页</a>
+        </li>
+        <li>
+            <a href="http://i.taobao.com/my_front.htm?tracelog=mytaobaonavmyindex&amp;nekot=1369986803458" data-spm="d1000353">个人主页</a>
+        </li>
+        <li class="J_MtNavSubTrigger">
+            <a class="mt-nav-parent" href="http://member1.taobao.com/member/fresh/account_security.htm?tracelog=mytaobaonavsetup&amp;nekot=1369986803458" data-spm="d1000356">设置<s></s></a>
+            <div class="J_MtNavSub mt-nav-sub hide">
+                <p><a href="http://member1.taobao.com/member/fresh/account_security.htm?tracelog=snsmytaobaoshezhi1ed">安全设置</a></p>
+                <p><a href="http://i.taobao.com/user/baseInfoSet.htm?tracelog=snsmytaobaoshezhi2ed">个人资料</a></p>
+                <p><a href=" http://member1.taobao.com/member/fresh/account_management.htm?tracelog=snsmytaobaoshezhi3ed">支付宝绑定设置</a></p>
+                <p><a href=" http://member1.taobao.com/member/fresh/deliver_address.htm?tracelog=snsmytaobaoshezhi4ed">收货地址</a></p>
+                <p><a href="http://i.taobao.com/user/privacy_set.htm?tracelog=snsmytaobaoshezhi5ed">隐私设置</a></p>
+                <p><a href="http://member1.taobao.com/member/fresh/account_security.htm?tracelog=snsmytaobaoshezhi6ed&amp;nekot=1348020359357">更多</a></p>
+            </div>
+        </li>
+        <li class="J_MtNavSubTrigger">
+            <a class="mt-nav-parent" href="http://i.taobao.com/message/view_message.htm?tracelog=mytaobaonavmessage&amp;nekot=1369986803458&amp;category=1000&amp;msgName=1" data-spm="d1000357">消息<s></s></a>
+            <div class="J_MtNavSub mt-nav-sub hide">
+                <p><a href="http://i.taobao.com/message/view_message.htm?tracelog=snsmytaobaoxiaoxi2ed&amp;category=1000&amp;msgName=1">评论我的</a></p>
+                <p><a href="http://i.taobao.com/message/view_message.htm?tracelog=snsmytaobaoxiaoxi3ed&amp;category=1000&amp;msgName=2">提到我的</a></p>
+                <p><a href="http://i.taobao.com/message/view_message.htm?tracelog=snsmytaobaoxiaoxi4ed&amp;category=1000&amp;msgName=3">私信</a></p>
+                <p><a href="http://i.taobao.com/message/view_message.htm?tracelog=snsmytaobaoxiaoxi5ed&amp;category=1000&amp;msgName=4">提醒</a></p>
+            </div>
+        </li>
+    </ul>
+    <div class="search-panel search-sns-panel-field">
+        <form target="_top" action="http://s.taobao.com/search" name="search" id="J_TSearchForm" class="search-panel-focused">
+            <div class="search-button">
+                <button class="btn-search" type="submit">搜 索</button>
+            </div>
+            <div class="search-panel-fields">
+                <label for="q"><!-- TMS fp2012/search_tips.php -->搜“<span>家装节</span>”试试，3折起盛宴！<!-- END --></label>
+                <input id="q" name="q" accesskey="s" autofocus="true" autocomplete="off" x-webkit-speech=""
+                       x-webkit-grammar="builtin:translate">
+            </div>
+            <input type="hidden" name="commend" value="all">
+            <input type="hidden" name="ssid" value="s5-e" autocomplete="off">
+            <input type="hidden" name="search_type" value="mall" autocomplete="off">
+            <input type="hidden" name="sourceId" value="tb.index">
+            <input type="hidden" name="spm" value="1.1000386.5803581.d4908513">
+            <!--[if lt IE 9]><s class="search-fix search-fix-panellt"></s><s class="search-fix search-fix-panellb"></s>
+            <![endif]-->
+        </form>
+    </div>
+</nav>
+<script>
+    var S = KISSY;
+    S.Config.debug = true;
+    if (S.Config.debug) {
+        var srcPath = "../../../";
+        S.config({
+            packages: [
+                {
+                    name: "gallery",
+                    path: srcPath,
+                    charset: "utf-8",
+                    ignorePackageNameInUri: true
+                }
+            ]
+        });
+        window.TB = {
+            Global: {
+                isLogin: function () {
+                    return true;
+                }
+            }
+        };
+    }
+    //代码开始
+    var pre = "gallery/searchbox/1.0/",
+            mods = [ pre + 'index','new_suggest.css'],
+
+            srhSuggestCfg = {
+                "extra": {
+                    "history": !!window.TB && window.TB.Global.isLogin()
+                            && !!(mods.push
+                            ('plugin/history'))
+                },
+                "mods": {
+                    "tab": {
+                        "activeCls": "selected"
+                    }
+                },
+                "sugConfig": {
+                    extraParams: "",
+                    sourceUrl: "http://suggest.taobao.com/sug",
+                    node: "#q",
+                    focused: true,
+                    //由于只支持简单的选择器，所以给这里加一个id
+                    tablist: "#J_SearchTab li",
+                    "resultFormat":""
+                }
+            };
+    S.use(mods.join("," + pre), function (S, SearchSuggest) {
+        var DOM = S.DOM, sug = new SearchSuggest(srhSuggestCfg);
+        while (arguments.length > 2) {
+            sug.plug(new (Array.prototype.pop.call(arguments)));
+        }
+        sug.getPlugin("tipsNotice");
+        sug.on("beforeFocus", function () {
+            var input = sug.get("input"),
+                    //获取form
+                    form = DOM.parent(input,"form"),
+            //获取搜索框底纹
+                    inputWrap = DOM.parent(input, 2),
+                    label = DOM.prev(inputWrap, "label"),
+            //底纹上的放大镜图片
+                    sImg = DOM.next(inputWrap, "s");
+            DOM.css(label,{color:"#ccc"});
+            form.className = "search-panel-focused";
+
+        });
+        var input = sug.get("input");
+
+        input.on("input",function(ev){
+            var target= ev.currentTarget,
+                    query = target.value,
+                    inputWrap = DOM.parent(input,2),
+                    label = DOM.prev(inputWrap,"label");
+            if(query !==""){
+                DOM.hide(label);
+            }
+        });
+        sug.on("beforeBlur", function () {
+            var input = sug.get("input"),
+                    form = DOM.parent(input,"form"),
+            //获取搜索框底纹
+                    inputWrap = DOM.parent(input, 2),
+            //底纹
+                    label = DOM.prev(inputWrap, "label"),
+            //底纹上的放大镜图片
+                    sImg = DOM.next(inputWrap, "s");
+            if (S.trim(sug.query) === "") {
+                DOM.show([label]);
+                DOM.css(label,"#999");
+            }
+            form.className ="";
+        })
+    })
+</script>
+
+</body>
+</html>

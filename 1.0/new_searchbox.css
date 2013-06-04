@@ -44,6 +44,7 @@ li {
     top: 8px;
     z-index: 1;
     color: #999;
+    cursor: pointer;
 }
 
 .search-panel-fields input {
@@ -89,7 +90,6 @@ li {
 }
 
 .search-panel-fields label {
-    display: none;
 }
 
 .search-panel-fields input{
@@ -103,6 +103,9 @@ li {
     margin-right: 3px;
 }
 /* 搜本店 */
+.search-panel-two-buttons .search-panel-fields{
+    margin-right: 149px;
+}
 .search-panel button.btn-searchshop{
     background-image: url("demo/images/bg-btn-searchshop.png");
     margin-left: 3px;
@@ -155,6 +158,7 @@ li {
     margin-left: 60px;
     margin-right: 149px;
 }
+
 .search-list-panel-focused .search-type{
     border-color: #e4445c;
 }

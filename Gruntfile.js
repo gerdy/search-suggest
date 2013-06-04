@@ -33,6 +33,26 @@ module.exports = function(grunt) {
                     {
                         src: "<%= pkg.version %>/plugin/history.js",
                         dest: "<%= pkg.version %>/build/plugin/history.js"
+                    },
+                    {
+                        src: "<%= pkg.version %>/plugin/tab.js",
+                        dest: "<%= pkg.version %>/build/plugin/tab.js"
+                    },
+                    {
+                        src: "<%= pkg.version %>/plugin/local-query.js",
+                        dest: "<%= pkg.version %>/build/plugin/local-query.js"
+                    },
+                    {
+                        src: "<%= pkg.version %>/plugin/storage.js",
+                        dest: "<%= pkg.version %>/build/plugin/storage.js"
+                    },
+                    {
+                        src: "<%= pkg.version %>/plugin/telephone.js",
+                        dest: "<%= pkg.version %>/build/plugin/telephone.js"
+                    },
+                    {
+                        src: "<%= pkg.version %>/plugin/tips-notice.js",
+                        dest: "<%= pkg.version %>/build/plugin/tips-notice.js"
                     }
 
                 ]
@@ -50,7 +70,12 @@ module.exports = function(grunt) {
             base: {
                 files: {
                     '<%= pkg.version %>/build/index-min.js': ['<%= pkg.version %>/build/index.js'],
-                    '<%= pkg.version %>/build/plugin/history-min.js': ['<%= pkg.version %>/build/plugin/history.js']
+                    '<%= pkg.version %>/build/plugin/history-min.js': ['<%= pkg.version %>/build/plugin/history.js'],
+                    '<%= pkg.version %>/build/plugin/tab-min.js': ['<%= pkg.version %>/build/plugin/tab.js'],
+                    '<%= pkg.version %>/build/plugin/local-query-min.js': ['<%= pkg.version %>/build/plugin/local-query.js'],
+                    '<%= pkg.version %>/build/plugin/storage-min.js': ['<%= pkg.version %>/build/plugin/storage.js'],
+                    '<%= pkg.version %>/build/plugin/telephone-min.js': ['<%= pkg.version %>/build/plugin/telephone.js'],
+                    '<%= pkg.version %>/build/plugin/tips-notice-min.js': ['<%= pkg.version %>/build/plugin/tips-notice.js']
                 }
             }
         }
@@ -59,5 +84,5 @@ module.exports = function(grunt) {
     // 使用到的任务，可以增加其他任务
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-kmc');
-    return grunt.registerTask('default', ['uglify']);
+    return grunt.registerTask('default', ['kmc','uglify']);
 };

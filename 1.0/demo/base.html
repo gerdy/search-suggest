@@ -1,23 +1,23 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="gbk"/>
-<title>ĞÂÑùÊ½</title>
-<script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
+    <meta charset="utf-8"/>
+    <title>æ–°æ ·å¼</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
     <link href="../new_searchbox.css" rel="stylesheet"/>
 </head>
 <body>
-<h2>demo±êÌâ</h2>
+<h2>demoæ ‡é¢˜</h2>
 
 <div class="search" id="J_Search" role="search">
-    <div class="search-panel ks-switchable-content">
+    <div class="search-panel ks-switchable-content search-panel-two-buttons">
         <form target="_top" action="http://s.taobao.com/search" name="search" id="J_TSearchForm" class="search-panel-focused">
             <div class="search-button">
-                <button class="btn-search" type="submit">ËÑ Ë÷</button>
-                <button class="btn-searchshop" type="submit">ËÑ Ë÷</button>
+                <button class="btn-search" type="submit">æœ ç´¢</button>
+                <button class="btn-searchshop" type="submit">æœ ç´¢</button>
             </div>
             <div class="search-panel-fields">
-                <label for="q"><!-- TMS fp2012/search_tips.php -->ËÑ¡°<span>¼Ò×°½Ú</span>¡±ÊÔÊÔ£¬3ÕÛÆğÊ¢Ñç£¡<!-- END --></label>
+                <label for="q"><!-- TMS fp2012/search_tips.php -->æœâ€œ<span>å®¶è£…èŠ‚</span>â€è¯•è¯•ï¼Œ3æŠ˜èµ·ç››å®´ï¼<!-- END --></label>
                 <input id="q" name="q" accesskey="s" autofocus="true" autocomplete="off" x-webkit-speech=""
                        x-webkit-grammar="builtin:translate">
             </div>
@@ -54,8 +54,8 @@
             }
         };
     }
-    //´úÂë¿ªÊ¼
-    var pre = "gallery/search-suggest/1.0/",
+    //ä»£ç å¼€å§‹
+    var pre = "gallery/searchbox/1.0/",
             mods = [ pre + 'index','new_suggest.css'],
 
             srhSuggestCfg = {
@@ -87,8 +87,9 @@
                     sourceUrl: "http://suggest.taobao.com/sug",
                     node: "#q",
                     focused: true,
-                    //ÓÉÓÚÖ»Ö§³Ö¼òµ¥µÄÑ¡ÔñÆ÷£¬ËùÒÔ¸øÕâÀï¼ÓÒ»¸öid
-                    tablist: "#J_SearchTab li"
+                    //ç”±äºåªæ”¯æŒç®€å•çš„é€‰æ‹©å™¨ï¼Œæ‰€ä»¥ç»™è¿™é‡ŒåŠ ä¸€ä¸ªid
+                    tablist: "#J_SearchTab li",
+                    prefixCls: "ks-"
                 }
             };
     S.use(mods.join("," + pre), function (S, SearchSuggest) {
@@ -96,31 +97,42 @@
         while (arguments.length > 2) {
             sug.plug(new (Array.prototype.pop.call(arguments)));
         }
-        sug.getPlugin("tipsNotice");
         sug.on("beforeFocus", function () {
             var input = sug.get("input"),
-                    //»ñÈ¡form
+            //è·å–form
                     form = DOM.parent(input,"form"),
-            //»ñÈ¡ËÑË÷¿òµ×ÎÆ
+            //è·å–æœç´¢æ¡†åº•çº¹
                     inputWrap = DOM.parent(input, 2),
                     label = DOM.prev(inputWrap, "label"),
-            //µ×ÎÆÉÏµÄ·Å´ó¾µÍ¼Æ¬
+            //åº•çº¹ä¸Šçš„æ”¾å¤§é•œå›¾ç‰‡
                     sImg = DOM.next(inputWrap, "s");
-            DOM.hide([label]);
+            DOM.css(label,{color:"#ccc"});
             form.className = "search-panel-focused";
 
+        })
+        var input = sug.get("input");
+
+        input.on("input",function(ev){
+            var target= ev.currentTarget,
+                    query = target.value,
+                    inputWrap = DOM.parent(input,2),
+                    label = DOM.prev(inputWrap,"label");
+            if(query !==""){
+                DOM.hide(label);
+            }
         })
         sug.on("beforeBlur", function () {
             var input = sug.get("input"),
                     form = DOM.parent(input,"form"),
-            //»ñÈ¡ËÑË÷¿òµ×ÎÆ
+            //è·å–æœç´¢æ¡†åº•çº¹
                     inputWrap = DOM.parent(input, 2),
-            //µ×ÎÆ
+            //åº•çº¹
                     label = DOM.prev(inputWrap, "label"),
-            //µ×ÎÆÉÏµÄ·Å´ó¾µÍ¼Æ¬
+            //åº•çº¹ä¸Šçš„æ”¾å¤§é•œå›¾ç‰‡
                     sImg = DOM.next(inputWrap, "s");
             if (S.trim(sug.query) === "") {
                 DOM.show([label]);
+                DOM.css(label,"#999");
             }
             form.className ="";
         })

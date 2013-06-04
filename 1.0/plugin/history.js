@@ -6,8 +6,8 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
     S.extend(History, Base,{
         pluginInitializer:function(caller){
             var self = this,
-                sugCfg = caller.get("sugConfig"),
-                tab = sugCfg.tab||"";
+                sugConfig = caller.get("sugConfig"),
+                tab = sugConfig.tab||"";
             caller.set('extend',{'history':true});
             self.set("caller",caller);
             self.historyLocalQuery=new LocalQuery({name:'history',tab:tab,user:caller.getNick()});
@@ -16,7 +16,7 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
             comboBox.on('afterCollapsedChange',function(e){
                 if(!e.newVal){
                     comboBox.detach('afterCollapsedChange',arguments.callee);
-                    comboBox.get('menu').get('el').delegate('mousedown','.ks-menu-history-delete',self._historyDeleteMousedown,self);
+                    comboBox.get('menu').get('el').delegate('mousedown','.'+ sugConfig.prefixCls +'menu-history-delete',self._historyDeleteMousedown,self);
                     comboBox.on("click",self.saveItemVal,self);
                 }
             });
@@ -68,7 +68,9 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
                 q = caller.query,
                 allHitedHistoryList=self.historyLocalQuery.query(q),
                 historyItemNum,
-                hitedHistoryList;
+                hitedHistoryList,
+                sugConfig = caller.get("sugConfig"),
+                prefix = sugConfig.prefixCls;
             //只有有历史记录并且q不等于空值,才显示头尾
             if(q === "" && allHitedHistoryList.length > 0){
                 caller.__header = {
@@ -76,7 +78,7 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
                     type: 'history'
                 };
                 caller.__footer = {
-                    tmpl: '<div class="history-box"><a href="javascript:;" class="ks-menu-history-clean">清空搜索历史</a></div>',
+                    tmpl: '<div class="history-box"><a href="javascript:;" class="'+ prefix +'menu-history-clean">清空搜索历史</a></div>',
                     type: 'history'
                 };
                 historyItemNum= 10;
@@ -131,14 +133,18 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
             var self=this,
                 caller= self.get("caller"),
                 historyItemValue,
-                resultTmpl='<div class="ks-menu-extras-history" data-key="q={historyItemValue}&suggest=history_{index}" index="{historyItemValue}">' +
-                    '<span class="ks-menu-history-key">{historyItemValue}</span><span class="ks-menu-history-delete">删除</span></div>',
+                sugConfig = caller.get("sugConfig"),
+                prefix = sugConfig.prefixCls,
+                resultTmpl='<div class="{prefixCls}menu-extras-history" data-key="q={historyItemValue}&suggest=history_{index}" index="{historyItemValue}">' +
+                    '<span class="{prefixCls}menu-history-key">{historyItemValue}</span><span class="{prefixCls}menu-history-delete">删除</span></div>',
                 ret = caller.resultArr||(caller.resultArr=[]),
                 resultHtml;
             list = S.unique(list);
             for(var i = 0, len = list.length - 1; i <= len; i ++){
                 historyItemValue=decodeURI(list[i]['key']);
-                resultHtml = resultTmpl.replace(/{historyItemValue}/g,historyItemValue).replace(/{index}/g,(i+1).toString());
+                resultHtml = resultTmpl.replace(/{historyItemValue}/g,historyItemValue)
+                    .replace(/{prefixCls}/g,prefix)
+                    .replace(/{index}/g,(i+1).toString());
                 ret.push({
                     content: resultHtml,
                     textContent: historyItemValue,
@@ -170,7 +176,9 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
                 menu = comboBox.get("menu"),
                 container = menu.get("el"),
                 input = comboBox.get("input"),
-                header= container.one('.ks-combobox-menu-header');
+                sugConfig = caller.get("sugConfig"),
+                prefix = sugConfig.prefixCls,
+                header= container.one('.'+ prefix +'combobox-menu-header');
             self.historyLocalQuery.clearByDay(0);
             self.hitedHistoryListMap = {};
             var siblings =  header.siblings();

@@ -7,9 +7,10 @@ KISSY.add(function (S,Base,Storage) {
          * 读取电话号码的值
          * @private
          */
-        pluginInitializer: function(){
+        pluginInitializer: function(caller){
             var self = this,storage = new Storage();
             self._telHistory = [];
+            self.set("caller",caller);
             storage.read('TBTelNumHistory', {
                 onSuccess: function(val) {
                     S.log('loading TBTelNumHistory: ' + val);
@@ -53,7 +54,9 @@ KISSY.add(function (S,Base,Storage) {
         }
     },{
         ATTRS:{
-            pluginId:"telephone"
+            pluginId:{
+                value: "telephone"
+            }
         }
     })
     return Telephone;

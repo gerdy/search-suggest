@@ -44,38 +44,26 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             var self = this,
                 comboBox = self.comboBox,
                 input = comboBox.get("input");
+            /*
             input.on("focus",function(){
                 if(self.fire("beforeFocus") !== false){
 
                 }
+            })*/
+            input.on("click",function(){
+                if(self.fire("beforeFocus") !== false){
+                    var inputVal = S.trim(input.val()),
+                        sugConfig = self.get("sugConfig"),
+                        prefix = sugConfig.prefixCls,
+                        isFocused = comboBox.get("el").hasClass(prefix + "combobox-focused");
+                    //如果已经触发focus，则自动展开
+                    if(isFocused){
+                        if(sugConfig.autoCollapsed||inputVal === ""){
+                            comboBox.sendRequest(inputVal);
+                        }
+                    }
+                }
             })
-            input.on("click",function(){
-                if(self.fire("beforeFocus") !== false){
-                    var //isFocused = comboBox.get("el").hasClass("ks-combobox-focused"),
-                        isFocused = true,
-                        inputVal = S.trim(input.val()),
-                        sugConfig = self.get("sugConfig");
-                    //如果已经触发focus，则自动展开
-                    if(isFocused){
-                        if(sugConfig.autoCollapsed||inputVal === ""){
-                            comboBox.sendRequest(inputVal);
-                        }
-                    }
-                }
-            })/*
-            input.on("click",function(){
-                if(self.fire("beforeFocus") !== false){
-                    var isFocused = comboBox.get("el").hasClass("ks-combobox-focused"),
-                        inputVal = S.trim(input.val()),
-                        sugConfig = self.get("sugConfig");
-                    //如果已经触发focus，则自动展开
-                    if(isFocused){
-                        if(sugConfig.autoCollapsed||inputVal === ""){
-                            comboBox.sendRequest(inputVal);
-                        }
-                    }
-                }
-            });*/
             input.on("blur",function(){
                 if(self.fire("beforeBlur") !== false){
 
@@ -170,6 +158,32 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             DOM.wrap(seletor,wrapper);
             return Node.one("."+wrapCls+"combobox");
         },
+        /**
+         *
+         * mods:{"new":{index:3}}
+         * plugins:{}
+         * @private
+         */
+        _getRenderSort: function(){
+            var self = this,
+                mods = S.merge(Mods,self.get("mods")),arr = [],
+                mod,index,
+                plugins = self.get("plugins"),
+                plugin;
+            self.set("mods",mods);
+            for(var i in plugins){
+                plugin = plugins[i];
+                index = plugin.get("index") - 0||-1;
+                arr[index] = plugin.get("pluginId");
+            }
+            for(var i in mods){
+                mod = mods[i],
+                index = mod.index;
+                if(!index) continue;
+                arr[index] = i;
+            }
+            this.set("renderIndex",arr);
+        },
         _initCombo: function(){
             var self = this ,
             //获取suggest的配置
@@ -180,15 +194,16 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 //获取comboBox的默认配置
                 comboBoxCfg = self._getDefComboCfg();
             //获得mods的配置
-            self.set("mods",Mods);
+            self._getRenderSort();
             dataSourceCfg.xhrCfg.url = sugCfg.sourceUrl;
             dataSourceCfg.parse = S.bind(self.parse,self);
             dataSource = new ComboBox.RemoteDataSource(dataSourceCfg);
             self._setComboCache(dataSource);
             comboBoxCfg.focused = sugCfg.focused;
-            comboBoxCfg.srcNode = self._prepareHtml(sugCfg.node,sugCfg.cls);
+            comboBoxCfg.srcNode = self._prepareHtml(sugCfg.node,sugCfg.prefixCls);
             comboBoxCfg.dataSource = dataSource;
             comboBoxCfg.format = S.bind(self.format,self);
+            comboBoxCfg.prefixCls = sugCfg.prefixCls;
             var comboBox = new ComboBox(comboBoxCfg);
             comboBox.render();
             self.comboBox = comboBox;
@@ -253,42 +268,43 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
          */
         render: function(query,results){
             var self = this,
-                extra = self.get("extra"),
-                defaultExtra = self.get("defaultExtra"),
+                renderIndex = self.get("renderIndex"),
                 tmpl,mod,addedPos,pos,
                 plugin,
-                mods = self.get("mods");
+                mods = self.get("mods"),
+                isShowExtra = self._adjustExtra(query,mods.showExtra),
+                indexVal;
             //每次渲染的时候,获取一个query值
             self.query = query;
-            extra = S.merge(defaultExtra,extra);
-            extra = self._adjustExtra(query,extra);
-            for(var i in extra){
+            for(var i in renderIndex){
+                indexVal = renderIndex[i];
                 //如果always为真,则一直都执行
-                if(extra[i]){
-                    plugin = self.getPlugin(i);
+                //
+                if(indexVal === "list"){
+                    self._list(query,results);
+                    continue;
+                }
+                if(i !== "-1"){
+                    plugin = self.getPlugin(indexVal);
                     if(plugin&&plugin.renderPlugin){
                         plugin.renderPlugin();
                     }else{
-                        mod = mods[i];
-                        if(mod&&extra["showExtra"]&& (!(pos=mod.pos)||(addedPos !== pos))){
+                        mod = mods[indexVal];
+                        if(mod&&isShowExtra&& (!(pos=mod.pos)||(addedPos !== pos))){
                             tmpl = mod.tmpl;
                             if(!tmpl) continue;
                             var len = self.resultArr.length,
                                 diff = self.diffLen||0;
                             addedPos = self._defaultRender({
                                 "tmpl": tmpl,
-                                "name": i,
+                                "name": indexVal,
                                 "pos": pos,
                                 "always": mod.always&&(results.length> 0),
                                 "callback": mod.callback,
                                 "index": len - diff
                             });
                         }
-                        if(i === "list"){
-                            self._list(query,results);
-                        }
                     }
-
                 }
             }
         },
@@ -372,13 +388,12 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
          * @returns {*}
          * @private
          */
-        _adjustExtra: function(query,extra){
-            if(query === ""){
-                extra.showExtra = false;
+        _adjustExtra: function(query,isShowExtra){
+            if(query !=="" && isShowExtra){
+                return true;
             }else{
-                extra.showExtra = true;
+                return false;
             }
-            return extra;
         },
         /**
          * 获取当前登录用户的昵称
@@ -488,25 +503,26 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 //这里会触发两次，分别是comboBox和suggest
                 comboBox = self.comboBox||self,
                 headerCfg = self.__header,
-                footerCfg = self.__footer;
+                footerCfg = self.__footer,
+                prefix = self.get("sugConfig").prefixCls;
             if(!e||(e&&!e.newVal)){
                 var menu = comboBox.get("menu");
                 if(!menu.get){
                     return;
                 }
                 var menuEl = menu.get("el");
-                if(!menuEl||menuEl.all(".ks-menuitem").length < 1) {
+                if(!menuEl||menuEl.all("."+ prefix +"menuitem").length < 1) {
                     return;
                 }
 
-                var header = menuEl.one(".ks-combobox-menu-header"),
-                    footer = menuEl.one(".ks-combobox-menu-footer");
+                var header = menuEl.one("."+ prefix +"combobox-menu-header"),
+                    footer = menuEl.one("."+ prefix +"combobox-menu-footer");
                 if(footerCfg){
                     if (!footer) {
-                        footer = new Node("<div class='ks-combobox-menu-footer'></div>").appendTo(menuEl);
+                        footer = new Node("<div class='"+ prefix +"combobox-menu-footer'></div>").appendTo(menuEl);
                     }
                     footer.empty().append(footerCfg.tmpl);
-                    var historyClean = footer.one(".ks-menu-history-clean");
+                    var historyClean = footer.one("."+ prefix +"menu-history-clean");
                     if(historyClean){
                         historyClean.on("click",function(e){
                             e.halt();
@@ -557,7 +573,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 }
                 if(headerCfg){
                     if (!header) {
-                        header = new Node("<div class='ks-combobox-menu-header'></div>").prependTo(menuEl);
+                        header = new Node("<div class='"+ prefix +"combobox-menu-header'></div>").prependTo(menuEl);
                     }
                     header.empty().append(headerCfg.tmpl);
                 }else{
@@ -570,20 +586,6 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             }
         }
     }, {ATTRS : /** @lends SearchSuggest*/{
-        defaultExtra:{
-            value: {
-                "history": true,
-                "telephone": false,
-                "cat": false,
-                "global": false,
-                "list": true,
-                "new": false,
-                "shop": false,
-                "jipiao": false,
-                "tdg": false,
-                "showExtra": true
-            }
-        },
         sugConfig:{
             value:{
                 //跳转需要附加的参数
@@ -594,7 +596,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 tab:"item",
                 autoCollapsed: true,
                 focused: false,
-                cls:"ks-",
+                prefixCls:"ks-",
                 tablist: null,
                 excludeParam:[],
                 //默认的显示格式

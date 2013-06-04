@@ -98,14 +98,26 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
                             "resultFormat": '',
                             "tab":"shop"
                         },
-                        "extra":{
-                            "tel": false,
-                            "cat": false,
-                            "new": false,
-                            "jipiao": false,
-                            "shop": false,
-                            "tdg": false,
-                            "showExtra": true
+                        "mods":{
+                            "tel": {
+                                index:false
+                            },
+                            "cat": {
+                                index:false
+                            },
+                            "new": {
+                                index:false
+                            },
+                            "jipiao": {
+                                index:false
+                            },
+                            "shop": {
+                                index:false
+                            },
+                            "tdg": {
+                                index:false
+                            },
+                            "showExtra": false
                         },
                         "action":"http://shopsearch.taobao.com/search",
                         tab:"shop"
@@ -118,14 +130,26 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
                             "resultFormat": '约{count}个宝贝',
                             "tab":"item"
                         },
-                        extra:{
-                            "tel": true,
-                            "cat": true,
-                            "global": true,
-                            "new": true,
-                            "shop": true,
-                            "jipiao": true,
-                            "tdg": true
+                        "mods":{
+                            "cat": {
+                                index:4
+                            },
+                            "new": {
+                                index:6
+                            },
+                            "jipiao": {
+                                index:8
+                            },
+                            "global":{
+                                index: 5
+                            },
+                            "shop": {
+                                index:7
+                            },
+                            "tdg": {
+                                index: 9
+                            },
+                            "showExtra": true
                         },
                         action:"http://s.taobao.com/search"
                     }
@@ -137,13 +161,28 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
                             "resultFormat": '约{count}个宝贝',
                             "tab":"mall"
                         },
-                        extra: {
-                            "tel": false,
-                            "cat": true,
-                            "new": false,
-                            "jipiao": false,
-                            "shop": false,
-                            "tdg": true,
+                        "mods":{
+                            "cat": {
+                                index:4
+                            },
+                            "new": {
+                                index:-1
+                            },
+                            "jipiao": {
+                                index: -1
+                            },
+                            "global":{
+                                index: 5
+                            },
+                            "shop": {
+                                index:-1
+                            },
+                            "tdg": {
+                                index: 9
+                            },
+                            "tel":{
+                                index: -1
+                            },
                             "showExtra": true
                         },
                         action:"http://list.tmall.com/search_product.htm"
