@@ -275,39 +275,34 @@
         };
     }
     //代码开始
-    var pre = "gallery/searchbox/1.0/",
-            mods = [ pre + 'index','new_suggest.css'],
-
-            srhSuggestCfg = {
-                "extra": {
-                    "history": !!window.TB && window.TB.Global.isLogin()
-                            && !!(mods.push
-                            ('plugin/history'))
-                },
-                "mods": {
-                    "tab": {
-                        "activeCls": "selected"
-                    }
-                },
-                "sugConfig": {
-                    extraParams: "",
-                    sourceUrl: "http://suggest.taobao.com/sug",
-                    node: "#q",
-                    focused: true,
-                    //由于只支持简单的选择器，所以给这里加一个id
-                    tablist: "#J_SearchTab li",
-                    "resultFormat":""
-                }
-            };
-    S.use(mods.join("," + pre), function (S, SearchSuggest) {
-        var DOM = S.DOM, sug = new SearchSuggest(srhSuggestCfg);
-        while (arguments.length > 2) {
-            sug.plug(new (Array.prototype.pop.call(arguments)));
-        }
-        sug.getPlugin("tipsNotice");
+    S.use('dom,gallery/searchbox/1.0/,gallery/searchbox/1.0/plugin/history,gallery/searchbox/1.0/plugin/tab,gallery/searchbox/1.0/plugin/telephone,gallery/searchbox/1.0/new_suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
+        var sug = new SearchSuggest({
+            plugins:[
+                new History({
+                    index: !!(window.TB&&window.TB.Global.isLogin())&&1
+                }),
+                new Tab({
+                    "activeCls": "selected"
+                }),
+                new Telephone({
+                    index: !!(window.TB&&window.TB.Global.isLogin())&&2
+                })
+            ],
+            "sugConfig": {
+                extraParams: "",
+                sourceUrl: "http://suggest.taobao.com/sug",
+                node: "#q",
+                focused: true,
+                //由于只支持简单的选择器，所以给这里加一个id
+                tablist: "#J_SearchTab li"
+            },
+            "mods":{
+                "showExtra":true
+            }
+        });
         sug.on("beforeFocus", function () {
             var input = sug.get("input"),
-                    //获取form
+            //获取form
                     form = DOM.parent(input,"form"),
             //获取搜索框底纹
                     inputWrap = DOM.parent(input, 2),
@@ -317,7 +312,7 @@
             DOM.css(label,{color:"#ccc"});
             form.className = "search-panel-focused";
 
-        });
+        })
         var input = sug.get("input");
 
         input.on("input",function(ev){
@@ -328,7 +323,7 @@
             if(query !==""){
                 DOM.hide(label);
             }
-        });
+        })
         sug.on("beforeBlur", function () {
             var input = sug.get("input"),
                     form = DOM.parent(input,"form"),

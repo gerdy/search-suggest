@@ -86,58 +86,62 @@
         };
     }
     //代码开始
-    var pre = "gallery/searchbox/1.0/",
-            mods = [ pre + 'index','suggest.css'],
-
-            srhSuggestCfg = {
-                "extra": {
-                    "history": !!window.TB && window.TB.Global.isLogin()
-                            && !!(mods.push
-                            ('plugin/history')),
-                    "telephone": !!window.TB && window.TB.Global.isLogin()
-                            && !!(mods.push
-                            ('plugin/telephone')),
-                    "cat": true,
-                    "global": true,
-                    "new": true,
-                    "shop": true,
-                    "jipiao": true,
-                    "tdg": true,
-                    "tab": !!(mods.push
-                            ('plugin/tab')),
-                    "tipsNotice": !!(mods.push
-                            ('plugin/tips-notice'))
-                },
-                "mods": {
-                    "tab": {
-                        "activeCls": "selected"
-                    }
-                },
-                "sugConfig": {
-                    extraParams: "",
-                    sourceUrl: "http://suggest.taobao.com/sug",
-                    node: "#q",
-                    focused: true,
-                    //由于只支持简单的选择器，所以给这里加一个id
-                    tablist: "#J_SearchTab li"
-                }
-            };
-    S.use(mods.join("," + pre), function (S, SearchSuggest) {
-        var DOM = S.DOM, sug = new SearchSuggest(srhSuggestCfg);
-        while (arguments.length > 2) {
-            sug.plug(new (Array.prototype.pop.call(arguments)));
-        }
+    S.use('dom,gallery/searchbox/1.0/,' +
+            'gallery/searchbox/1.0/plugin/history,' +
+            'gallery/searchbox/1.0/plugin/tab,' +
+            'gallery/searchbox/1.0/plugin/telephone,' +
+            'gallery/searchbox/1.0/suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
+        var sug = new SearchSuggest({
+            plugins:[
+                new History({
+                    index: !!(window.TB&&window.TB.Global.isLogin())&&1
+                }),
+                new Tab({
+                    "activeCls": "selected"
+                }),
+                new Telephone({
+                    index: !!(window.TB&&window.TB.Global.isLogin())&&2
+                })
+            ],
+            "sugConfig": {
+                extraParams: "",
+                sourceUrl: "http://suggest.taobao.com/sug",
+                node: "#q",
+                focused: true,
+                //由于只支持简单的选择器，所以给这里加一个id
+                tablist: "#J_SearchTab li"
+            },
+            "mods":{
+                "showExtra":true
+            }
+        });
         sug.on("beforeFocus", function () {
             var input = sug.get("input"),
+            //获取form
+                    form = DOM.parent(input,"form"),
             //获取搜索框底纹
                     inputWrap = DOM.parent(input, 2),
                     label = DOM.prev(inputWrap, "label"),
             //底纹上的放大镜图片
                     sImg = DOM.next(inputWrap, "s");
-            DOM.hide([label, sImg]);
+            DOM.css(label,{color:"#ccc"});
+            form.className = "search-panel-focused";
+
+        })
+        var input = sug.get("input");
+
+        input.on("input",function(ev){
+            var target= ev.currentTarget,
+                    query = target.value,
+                    inputWrap = DOM.parent(input,2),
+                    label = DOM.prev(inputWrap,"label");
+            if(query !==""){
+                DOM.hide(label);
+            }
         })
         sug.on("beforeBlur", function () {
             var input = sug.get("input"),
+                    form = DOM.parent(input,"form"),
             //获取搜索框底纹
                     inputWrap = DOM.parent(input, 2),
             //底纹
@@ -145,9 +149,10 @@
             //底纹上的放大镜图片
                     sImg = DOM.next(inputWrap, "s");
             if (S.trim(sug.query) === "") {
-                DOM.show([label, sImg]);
-
+                DOM.show([label]);
+                DOM.css(label,"#999");
             }
+            form.className ="";
         })
     })
 </script>
