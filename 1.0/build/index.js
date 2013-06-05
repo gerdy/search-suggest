@@ -8,34 +8,34 @@ gallery/search-suggest/1.0/index
 KISSY.add('gallery/search-suggest/1.0/plugin/mods',function(){
     return {
         "new":{
-            "tmpl": '<div class="item-wrapper ks-menu-extras-xp" ' +
+            "tmpl": '<div class="item-wrapper {prefixCls}menu-extras-xp" ' +
                 'data-key="suggest=new_{$index}&tab=shopping&auction_tag[]=1154">' +
-                '<span class="ks-menu-xp-tag">新品</span>' +
-                '<span class="ks-menu-xp-icon">新品</span>' +
-            '<span class="ks-menu-xp">“{$query}”相关{new}新品</span></div>',
+                '<span class="{prefixCls}menu-xp-tag">新品</span>' +
+                '<span class="{prefixCls}menu-xp-icon">新品</span>' +
+            '<span class="{prefixCls}menu-xp">“{$query}”相关{new}新品</span></div>',
             "index": 6
         },
         "shop":{
-            "tmpl": '<div class="item-wrapper ks-menu-extras-dp" ' +
+            "tmpl": '<div class="item-wrapper {prefixCls}menu-extras-dp" ' +
                 'data-action="http://shopsearch.taobao.com/search" data-key="suggest=shop_{$index}">' +
-                '<span class="ks-menu-dp-tag">店铺</span>' +
-                '<span class="ks-menu-dp-icon">店铺</span>' +
-            '<span class="ks-menu-dp">“{$query}”相关店铺</span></div>',
+                '<span class="{prefixCls}menu-dp-tag">店铺</span>' +
+                '<span class="{prefixCls}menu-dp-icon">店铺</span>' +
+            '<span class="{prefixCls}menu-dp">“{$query}”相关店铺</span></div>',
             "index": 7
         },
         "cat":{
-            "tmpl": '<div class="ks-menu-extras-cate" data-key="cat={$1}&suggest=cat_{$index}">' +
-                '<span class="ks-menu-key">{$query}</span>' +
-            '<span class="ks-menu-cate">在<b>{$0}</b>分类下搜索</span></div>',
+            "tmpl": '<div class="{prefixCls}menu-extras-cate" data-key="cat={$1}&suggest=cat_{$index}">' +
+                '<span class="{prefixCls}menu-key">{$query}</span>' +
+            '<span class="{prefixCls}menu-cate">在<b>{$0}</b>分类下搜索</span></div>',
             "index": 3
         },
         "list":{
             "index": 5
         },
         "global":{
-            "tmpl": '<div class="ks-menu-extras-cate" data-key="promote=2097152&suggest=global_{$index}">' +
-                '<span class="ks-menu-key">{$query}</span>' +
-            '<span class="ks-menu-cate">在全球购市场中搜索</span></div>',
+            "tmpl": '<div class="{prefixCls}menu-extras-cate" data-key="promote=2097152&suggest=global_{$index}">' +
+                '<span class="{prefixCls}menu-key">{$query}</span>' +
+            '<span class="{prefixCls}menu-cate">在全球购市场中搜索</span></div>',
             "index": 4
         },
         "tdg":{
@@ -69,7 +69,7 @@ KISSY.add('gallery/search-suggest/1.0/plugin/mods',function(){
     };
 })
 /**
- * @fileoverview 请修改组件描述
+ * @fileoverview search-suggest的入口文件
  * @author gerdy<gerdyhk@gmail.com>
  * @module searchSuggest
  **/
@@ -86,12 +86,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
         initializer: function(){
             var self = this;
             //调用父类构造函数
-            self._init();
-        },
-        _init: function(){
-            var self = this;
             self._initCombo();
-
         },
         /**
          * 设置comboBox的缓存,比如tab之间的切换
@@ -114,12 +109,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             var self = this,
                 comboBox = self.comboBox,
                 input = comboBox.get("input");
-            /*
-            input.on("focus",function(){
-                if(self.fire("beforeFocus") !== false){
 
-                }
-            })*/
             input.on("click",function(){
                 if(self.fire("beforeFocus") !== false){
                     var inputVal = S.trim(input.val()),
@@ -141,18 +131,29 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             })
             comboBox.on("click",self.comboClick,self);
             comboBox.on("afterCollapsedChange", self._addExtraEvent,self);
-            var form = input.parent("form"),action = form.attr("action"),
+            self._formSubmitEvent();
+        },
+        /**
+         * 绑定form的提交事件
+         * @private
+         */
+        _formSubmitEvent: function(){
+            var self = this,
+                comboBox = self.comboBox,
+                input = comboBox.get("input"),
+                form = input.parent("form"),action = form.attr("action"),
                 paramStr = action.split("?")[1],params,param,inputsStr="",
-                qNode = comboBox.get("input"),
-                holderLabel,holderSpan;
-            form.on("submit",function(){
+                qNode = comboBox.get("input");
+            form.on("submit",function(ev){
                 if (self.fire("beforeSubmit") !== false){
                     //如果是空query，则先判断是否有底纹
                     // 然后判断form的data-empty参数。
                     // 如果参数为空，则不跳转
                     // 如果有参数则跳转到该参数
                     if(S.trim(qNode.val()) === ""){
-                        self._emptyJump(form);
+                        if(self._emptyJump(form) === false){
+                            ev.preventDefault();
+                        }
                     }
                     if(paramStr){
                         //将action里的参数转成隐藏域
@@ -166,6 +167,12 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 }
             })
         },
+        /**
+         * 当form为空时的跳转事件
+         * @param form
+         * @returns {boolean}  如果为false则终止跳转
+         * @private
+         */
         _emptyJump: function(form){
             var self = this,
                 holderLabel = form.one("label"),
@@ -181,7 +188,11 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 }
             }else{
                 emptyAction = form.attr("data-empty");
-                emptyAction&&form.attr("action",emptyAction);
+                if(emptyAction){
+                    form.attr("action",emptyAction);
+                }else{
+                    return false;
+                }
             }
         },
         /**
@@ -199,6 +210,10 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             form.append('<input type="hidden" name="style" value="grid" />');
 
         },
+        /**
+         * 下拉提示的条目点击事件
+         * @param e
+         */
         comboClick: function(e){
             var self = this,
                 el = e.target.get?e.target.get("el"):Node.one(e.currentTarget),
@@ -244,6 +259,11 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             return extraParamArr.join("&");
 
         },
+        /**
+         * 获取默认的comboBox配置
+         * @returns {{focused: boolean, hasTrigger: boolean, matchElWidth: boolean, srcNode: string, highlightMatchItem: boolean, menu: {align: {overflow: {adjustY: number}}}, cache: boolean}}
+         * @private
+         */
         _getDefComboCfg: function(){
             return {
                 focused: false,
@@ -260,7 +280,13 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 cache: true
             }
         },
-        //生成comboBox所需的结构
+        /**
+         * 生成comboBox所需的结构
+         * @param seletor
+         * @param wrapCls
+         * @returns {*}
+         * @private
+         */
         _prepareHtml: function(seletor,wrapCls){
             var wrapTpl = '<div class="{cls}combobox"><div class="{cls}combobox-input-wrap"></div></div>',
                 wrapHtml = wrapTpl.replace(/{cls}/g,wrapCls),
@@ -276,7 +302,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             return Node.one("."+wrapCls+"combobox");
         },
         /**
-         *
+         * 根据配置生成下拉提示的排序
          * mods:{"new":{index:3}}
          * plugins:{}
          * @private
@@ -301,6 +327,10 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             }
             this.set("renderIndex",arr);
         },
+        /**
+         * 初始化下拉提示
+         * @private
+         */
         _initCombo: function(){
             var self = this ,
             //获取suggest的配置
@@ -314,16 +344,20 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             self._getRenderSort();
             dataSourceCfg.xhrCfg.url = sugCfg.sourceUrl;
             dataSourceCfg.parse = S.bind(self.parse,self);
+            //实例化一个数据源
             dataSource = new ComboBox.RemoteDataSource(dataSourceCfg);
             self._setComboCache(dataSource);
+            //使用当前实例的配置来覆盖comboBox的配置
             comboBoxCfg.focused = sugCfg.focused;
             comboBoxCfg.srcNode = self._prepareHtml(sugCfg.node,sugCfg.prefixCls);
             comboBoxCfg.dataSource = dataSource;
             comboBoxCfg.format = S.bind(self.format,self);
             comboBoxCfg.prefixCls = sugCfg.prefixCls;
+            //实例化comboBox
             var comboBox = new ComboBox(comboBoxCfg);
             comboBox.render();
             self.comboBox = comboBox;
+            //初始化comboBox的事件
             self._initComboEvent();
             //comboBox.get("input")[0].focus();
         },
@@ -441,13 +475,14 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 dataSource = self.comboBox.get("dataSource"),
             //获取当前query
                 query = self.query,
+                prefixCls = self.get("sugConfig").prefixCls,
                 extraData = dataSource.extraData,
                 pos = config.pos,
                 index = config.index,
                 html;
             if(extraData&&extraData[query]||config.always){
                 var date = self._getDate(),
-                    data = {"$query": query,"$date": date};
+                    data = {"$query": query,"$date": date,"prefixCls":prefixCls};
                 if(!config.always){
                     var retData = extraData[query][name],
                         noChildArr = true;

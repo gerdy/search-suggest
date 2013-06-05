@@ -86,11 +86,11 @@
         };
     }
     //代码开始
-    S.use('dom,gallery/searchbox/1.0/,' +
-            'gallery/searchbox/1.0/plugin/history,' +
-            'gallery/searchbox/1.0/plugin/tab,' +
-            'gallery/searchbox/1.0/plugin/telephone,' +
-            'gallery/searchbox/1.0/suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
+    S.use('dom,gallery/search-suggest/1.0/,' +
+            'gallery/search-suggest/1.0/plugin/history,' +
+            'gallery/search-suggest/1.0/plugin/tab,' +
+            'gallery/search-suggest/1.0/plugin/telephone,' +
+            'gallery/search-suggest/1.0/suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
         var sug = new SearchSuggest({
             plugins:[
                 new History({
