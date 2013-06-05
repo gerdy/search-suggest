@@ -19,16 +19,18 @@ KISSY.add('gallery/search-suggest/1.0/plugin/tab',function(S,Base,DOM,Event,Comb
                 type = DOM.attr(target,"data-searchtype"),
                 empty = DOM.attr(target,"data-empty"),
                 action = DOM.attr(target,"data-action"),
+                input = sug.comboBox.get("input"),
                 tabCfg;
             //切换tab高亮的class
             DOM.removeClass(DOM.siblings(target),"selected");
             DOM.addClass(target,"selected");
+
             if(type){
                 tabCfg = self.getDefCfg(type);
                 tabCfg.action = action;
                 sug.update(tabCfg);
             }else{
-                var query = sug.query||sug.comboBox.get("input").val(),
+                var query = sug.query||input.val(),
                     aNode = DOM.get("a",target);
                 if(aNode){
                     var href = DOM.attr(aNode,"href");
@@ -52,7 +54,7 @@ KISSY.add('gallery/search-suggest/1.0/plugin/tab',function(S,Base,DOM,Event,Comb
             var self = this,
                 sug = self.get("caller"),
                 comboBox = sug.comboBox,
-                index = config.tab,
+                index = config.sugConfig.tab,
                 cachedData = sug.configArr[index],
                 dataSource,
                 dataSourceCfg,xhrCfg,

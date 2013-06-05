@@ -142,9 +142,18 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             comboBox.on("click",self.comboClick,self);
             comboBox.on("afterCollapsedChange", self._addExtraEvent,self);
             var form = input.parent("form"),action = form.attr("action"),
-                paramStr = action.split("?")[1],params,param,inputsStr="";
+                paramStr = action.split("?")[1],params,param,inputsStr="",
+                qNode = comboBox.get("input"),
+                holderLabel,holderSpan;
             form.on("submit",function(){
                 if (self.fire("beforeSubmit") !== false){
+                    //如果是空query，则先判断是否有底纹
+                    // 然后判断form的data-empty参数。
+                    // 如果参数为空，则不跳转
+                    // 如果有参数则跳转到该参数
+                    if(S.trim(qNode.val()) === ""){
+                        self._emptyJump(form);
+                    }
                     if(paramStr){
                         //将action里的参数转成隐藏域
                         params = paramStr.split("&");
@@ -156,6 +165,39 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                     }
                 }
             })
+        },
+        _emptyJump: function(form){
+            var self = this,
+                holderLabel = form.one("label"),
+                holderSpan,emptyAction,
+                //获取当前所在tab
+                tab = self.get("sugConfig").tab;
+            //如果存在底纹
+            if(holderLabel && tab === "item"){
+                holderSpan = holderLabel.one("span");
+                //获取底纹的query
+                if(holderSpan){
+                    self._holderJump(form,holderSpan.text());
+                }
+            }else{
+                emptyAction = form.attr("data-empty");
+                emptyAction&&form.attr("action",emptyAction);
+            }
+        },
+        /**
+         * 底纹的跳转逻辑
+         * @param form 搜索框所在的表单
+         * @param query 底纹的query词
+         * @private
+         */
+        _holderJump: function(form,query){
+            //获取底纹的query词
+            //插入大图逻辑
+            //给name = q 的隐藏域赋值
+            var q = form[0].q;
+            if(q) q.value = query;
+            form.append('<input type="hidden" name="style" value="grid" />');
+
         },
         comboClick: function(e){
             var self = this,
@@ -169,7 +211,6 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 _form = DOM.parent(comboBox.get("el"),"form"),
                 _action = DOM.attr(_form,"action"),
                 dataAction = DOM.attr(_child,"data-action")||self.get("action")||_action,
-            //主动搜索的埋点
                 otherQuery = "&wq=" + inputQuery +"&suggest_query=" + retQuery + "&source=suggest",
                 extraParam=self._getInputsVal(_form);
             //如果有?,则使用&连接,否则使用?
@@ -180,6 +221,12 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             }
             location.href = dataAction + dataKey + otherQuery + extraParam;
         },
+        /**
+         *  获取context里所有input隐藏域并拼成urlParam
+         * @param context
+         * @returns {string}
+         * @private
+         */
         _getInputsVal: function(context){
             var self = this,
                 sugCfg = self.get("sugConfig"),
@@ -278,7 +325,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             comboBox.render();
             self.comboBox = comboBox;
             self._initComboEvent();
-            comboBox.get("input")[0].focus();
+            //comboBox.get("input")[0].focus();
         },
         /**
          * 当实例需要更新配置，调用本方法
@@ -666,7 +713,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 tab:"item",
                 autoCollapsed: true,
                 focused: false,
-                prefixCls:"ks-",
+                prefixCls:"search-",
                 tablist: null,
                 excludeParam:[],
                 //默认的显示格式

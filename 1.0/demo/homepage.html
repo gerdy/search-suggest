@@ -26,7 +26,7 @@
         </ul>
     </div>
     <div class="search-panel ks-switchable-content">
-        <form target="_top" action="http://s.taobao.com/search" name="search" id="J_TSearchForm" class="search-panel-focused">
+        <form target="_top" data-empty="http://list.taobao.com/browse/cat-0.htm" action="http://s.taobao.com/search" name="search" id="J_TSearchForm" class="search-panel-focused">
             <div class="search-button">
                 <button class="btn-search" type="submit">搜 索</button>
             </div>
@@ -60,17 +60,10 @@
                 }
             ]
         });
-        window.TB = {
-            Global: {
-                isLogin: function () {
-                    return true;
-                }
-            }
-        };
     }
     //代码开始
 
-    S.use('dom,gallery/searchbox/1.0/,gallery/searchbox/1.0/plugin/history,gallery/searchbox/1.0/plugin/tab,gallery/searchbox/1.0/plugin/telephone,gallery/searchbox/1.0/new_suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
+    S.use('dom,gallery/search-suggest/1.0/,gallery/search-suggest/1.0/plugin/history,gallery/search-suggest/1.0/plugin/tab,gallery/search-suggest/1.0/plugin/telephone,gallery/search-suggest/1.0/new_suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
         var sug = new SearchSuggest({
             plugins:[
                 new History({
