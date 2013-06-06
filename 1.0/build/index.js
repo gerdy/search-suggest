@@ -250,6 +250,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 return;
             }
             a.setAttribute("href", url);
+            a.setAttribute("target","_self");
             a.style.display = "none";
             document.body.appendChild(a); //prototype shortcut
             a.click();

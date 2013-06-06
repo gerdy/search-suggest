@@ -180,6 +180,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 return;
             }
             a.setAttribute("href", url);
+            a.setAttribute("target","_self");
             a.style.display = "none";
             document.body.appendChild(a); //prototype shortcut
             a.click();
