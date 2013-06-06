@@ -20,10 +20,11 @@ KISSY.add('gallery/search-suggest/1.0/plugin/tab',function(S,Base,DOM,Event,Comb
                 empty = DOM.attr(target,"data-empty"),
                 action = DOM.attr(target,"data-action"),
                 input = sug.comboBox.get("input"),
+                activeCls = self.get("activeCls"),
                 tabCfg;
             //切换tab高亮的class
-            DOM.removeClass(DOM.siblings(target),"selected");
-            DOM.addClass(target,"selected");
+            DOM.removeClass(DOM.siblings(target),activeCls);
+            DOM.addClass(target,activeCls);
 
             if(type){
                 tabCfg = self.getDefCfg(type);

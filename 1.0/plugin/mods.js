@@ -2,7 +2,7 @@ KISSY.add(function(){
     return {
         "new":{
             "tmpl": '<div class="item-wrapper {prefixCls}menu-extras-xp" ' +
-                'data-key="suggest=new_{$index}&tab=shopping&auction_tag[]=1154">' +
+                'data-key="q={$query}&suggest=new_{$index}&tab=shopping&auction_tag[]=1154">' +
                 '<span class="{prefixCls}menu-xp-tag">新品</span>' +
                 '<span class="{prefixCls}menu-xp-icon">新品</span>' +
             '<span class="{prefixCls}menu-xp">“{$query}”相关{new}新品</span></div>',
@@ -10,14 +10,14 @@ KISSY.add(function(){
         },
         "shop":{
             "tmpl": '<div class="item-wrapper {prefixCls}menu-extras-dp" ' +
-                'data-action="http://shopsearch.taobao.com/search" data-key="suggest=shop_{$index}">' +
+                'data-action="http://shopsearch.taobao.com/search" data-key="q={$query}&suggest=shop_{$index}">' +
                 '<span class="{prefixCls}menu-dp-tag">店铺</span>' +
                 '<span class="{prefixCls}menu-dp-icon">店铺</span>' +
             '<span class="{prefixCls}menu-dp">“{$query}”相关店铺</span></div>',
             "index": 7
         },
         "cat":{
-            "tmpl": '<div class="{prefixCls}menu-extras-cate" data-key="cat={$1}&suggest=cat_{$index}">' +
+            "tmpl": '<div class="{prefixCls}menu-extras-cate" data-key="q={$query}&cat={$1}&suggest=cat_{$index}">' +
                 '<span class="{prefixCls}menu-key">{$query}</span>' +
             '<span class="{prefixCls}menu-cate">在<b>{$0}</b>分类下搜索</span></div>',
             "index": 3
@@ -26,7 +26,7 @@ KISSY.add(function(){
             "index": 5
         },
         "global":{
-            "tmpl": '<div class="{prefixCls}menu-extras-cate" data-key="promote=2097152&suggest=global_{$index}">' +
+            "tmpl": '<div class="{prefixCls}menu-extras-cate" data-key="q={$query}&promote=2097152&suggest=global_{$index}">' +
                 '<span class="{prefixCls}menu-key">{$query}</span>' +
             '<span class="{prefixCls}menu-cate">在全球购市场中搜索</span></div>',
             "index": 4

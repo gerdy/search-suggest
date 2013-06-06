@@ -11,17 +11,24 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
                 sug = self.get("caller"),
                 target = e.currentTarget,
                 type = DOM.attr(target,"data-searchtype"),
-                empty = DOM.attr(target,"data-empty"),
-                action = DOM.attr(target,"data-action"),
+                dataEmpty = DOM.attr(target,"data-defaultpage"),
+                dataAction = DOM.attr(target,"data-action"),
                 input = sug.comboBox.get("input"),
+                form = DOM.parent(input,"form"),
+                activeCls = self.get("activeCls"),
                 tabCfg;
             //切换tab高亮的class
-            DOM.removeClass(DOM.siblings(target),"selected");
-            DOM.addClass(target,"selected");
+
+            DOM.removeClass(DOM.siblings(target),activeCls);
+            DOM.addClass(target,activeCls);
+
+            //配置form的data-empty
+            dataEmpty&&form.setAttribute("data-defaultpage",dataEmpty);
+            dataAction&&form.setAttribute("action",dataAction);
 
             if(type){
                 tabCfg = self.getDefCfg(type);
-                tabCfg.action = action;
+                tabCfg.action = dataAction;
                 sug.update(tabCfg);
             }else{
                 var query = sug.query||input.val(),
@@ -39,10 +46,16 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
         _initPluginEvent: function(sug){
             var self = this,
                 sugCfg = sug.get("sugConfig"),
-                selectors = sugCfg.tablist;
+                activeCls = self.get("activeCls"),
+                selectors = sugCfg.tablist,tabActive;
             self.set("caller",sug);
             if(!selectors) return;
             Event.on(selectors,"click",self.tabClick,self);
+            S.all(selectors).each(function(n,i){
+                if(n.hasClass(activeCls)){
+                    sug.tabNode = n;
+                }
+            })
         },
         update: function(config){
             var self = this,
@@ -96,9 +109,10 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
                 case "shop": {
                     tabCfg = {
                         "sugConfig":{
-                            "sourceUrl":"http://suggest.taobao.com/sug?area=ssrch",
+                            "sourceUrl":"http://suggest.taobao.com/sug?area=ssrch&k=1",
                             "resultFormat": '',
-                            "tab":"shop"
+                            "tab":"shop",
+                            "excludeParam":["q"]
                         },
                         "mods":{
                             "tel": {
@@ -128,9 +142,10 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
                 case "item": {
                     tabCfg = {
                         sugConfig: {
-                            "sourceUrl": "http://suggest.taobao.com/sug",
+                            "sourceUrl": "http://suggest.taobao.com/sug?k=1",
                             "resultFormat": '约{count}个宝贝',
-                            "tab":"item"
+                            "tab":"item",
+                            "excludeParam":["q"]
                         },
                         "mods":{
                             "cat": {
@@ -159,9 +174,10 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
                 case "mall": {
                     tabCfg = {
                         sugConfig: {
-                            "sourceUrl": "http://suggest.taobao.com/sug?area=b2c",
+                            "sourceUrl": "http://suggest.taobao.com/sug?area=b2c&k=1",
                             "resultFormat": '约{count}个宝贝',
-                            "tab":"mall"
+                            "tab":"mall",
+                            "excludeParam":["q"]
                         },
                         "mods":{
                             "cat": {

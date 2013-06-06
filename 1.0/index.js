@@ -77,7 +77,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             form.on("submit",function(ev){
                 if (self.fire("beforeSubmit") !== false){
                     //如果是空query，则先判断是否有底纹
-                    // 然后判断form的data-empty参数。
+                    // 然后判断form的data-defaultpage参数。
                     // 如果参数为空，则不跳转
                     // 如果有参数则跳转到该参数
                     if(S.trim(qNode.val()) === ""){
@@ -108,7 +108,9 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 holderLabel = form.one("label"),
                 holderSpan,emptyAction,
                 //获取当前所在tab
-                tab = self.get("sugConfig").tab;
+                sugConfig = self.get("sugConfig"),
+                tab = sugConfig.tab,
+                tabSel = sugConfig.tablist;
             //如果存在底纹
             if(holderLabel && tab === "item"){
                 holderSpan = holderLabel.one("span");
@@ -117,12 +119,13 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                     self._holderJump(form,holderSpan.text());
                 }
             }else{
-                emptyAction = form.attr("data-empty");
+                emptyAction = (self.tabNode||form).attr("data-defaultpage");
                 if(emptyAction){
-                    form.attr("action",emptyAction);
-                }else{
-                    return false;
-                }
+                    if(S.startsWith(emptyAction,"http")){
+                        form.attr("action",emptyAction);
+                    }else{
+                        return false;
+                    }
             }
         },
         /**
@@ -164,7 +167,19 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             }else{
                 dataAction += "?";
             }
-            location.href = dataAction + dataKey + otherQuery + extraParam;
+            self.redirect(dataAction + dataKey + otherQuery + extraParam);
+        },
+        redirect: function(url) {
+            var a = document.createElement("a");
+            /*
+            if(!a.click) { //only IE has this (at the moment);
+                window.location = url;
+                return;
+            }*/
+            a.setAttribute("href", url);
+            a.style.display = "none";
+            document.body.appendChild(a); //prototype shortcut
+            a.click();
         },
         /**
          *  获取context里所有input隐藏域并拼成urlParam
@@ -299,7 +314,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             var self = this,
                 plugins = self.get("plugins");
             //如果模块包含update,则调用模块的update方法
-            for(var i = plugins.length -1; i >=0; i --){
+            for(var i = 0, len= plugins.length -1; i <= len; i ++){
                 var item = plugins[i];
                 item&& S.isFunction(item.update)&& item.update.call(item,config);
             }
@@ -580,12 +595,92 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 self._addExtraEvent();
             }
         },
+        /**
+         * 渲染搜索下拉提示的头部模块
+         * @param header
+         * @param headerCfg
+         * @param context
+         * @private
+         */
+        _renderHeader: function(header,headerCfg,context){
+            if(headerCfg){
+                var prefix = this.get("sugConfig").prefixCls;
+                header = new Node("<div class='"+ prefix +"combobox-menu-header'></div>").prependTo(context);
+                header.empty().append(headerCfg.tmpl);
+            }else{
+                header&&header.remove();
+            }
+        },
+        /**
+         * 渲染搜索下拉提示的底部模块
+         * @param footer
+         * @param footerCfg
+         * @param context
+         * @private
+         */
+        _renderFooter: function(footer,footerCfg,context){
+            var self = this,prefix = self.get("sugConfig").prefixCls;
+            if(footerCfg){
+                footer = new Node("<div class='"+ prefix +"combobox-menu-footer'></div>").appendTo(context);
+                footer.empty().append(footerCfg.tmpl);
+                var historyClean = footer.one("."+ prefix +"menu-history-clean");
+                if(historyClean){
+                    historyClean.on("click",function(e){
+                        e.halt();
+                        var History = self.getPlugin("history");
+                        History._cleanHistory();
+                    })
+                }
+                var tdgBtn = footer.one(".tdg-btn");
+                if(tdgBtn){
+                    tdgBtn.on("click",function(){
+                        var tdgInputs = Node.all(".tdg-input",footer),
+                            tdgArr = [],val="",
+                            tdgQueryInput = Node.one(".tdg-query",footer);
+                        tdgInputs.each(function(node){
+                            val = node.val();
+                            if(val){
+                                tdgArr.push(val);
+                            }
+                        })
+                        tdgQueryInput.val(tdgArr.join(" + "));
+                    })
+
+                }
+                var jpBtn = Node.one(".jp-btn",footer);
+                if(jpBtn){
+                    jpBtn.on("click",function(){
+                        var inputs = Node.all("input",footer),
+                            jpArr = [],jpEtArr=["tbsearch"],val = "";
+                        inputs.each(function(node){
+                            val = node.val();
+                            if(val){
+                                if(node.hasClass("J_Jp-query")){
+                                    jpArr.push(val);
+                                }
+                            }
+                            //当用户只输入两个input时，没有填写的需要一个空值
+                            if(node.hasClass("J_Jp-et")){
+                                jpEtArr.push(val||"");
+                            }
+
+                        })
+                        Node.one("#J_JiPiaoForm",footer).val(jpArr.join(" "));
+                        Node.one("#J_JipiaoEt",footer).val(jpEtArr.join("|"));
+                    })
+                }
+            }else{
+                footer&&footer.remove();
+            }
+        },
         _addExtraEvent: function(e){
             var self = this,
                 //这里会触发两次，分别是comboBox和suggest
                 comboBox = self.comboBox||self,
                 headerCfg = self.__header,
                 footerCfg = self.__footer,
+                lastHeaderCfg = self.__lastHeader,
+                lastFooterCfg = self.__lastFooter,
                 prefix = self.get("sugConfig").prefixCls;
             if(!e||(e&&!e.newVal)){
                 var menu = comboBox.get("menu");
@@ -596,71 +691,20 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 if(!menuEl||menuEl.all("."+ prefix +"menuitem").length < 1) {
                     return;
                 }
-
                 var header = menuEl.one("."+ prefix +"combobox-menu-header"),
                     footer = menuEl.one("."+ prefix +"combobox-menu-footer");
-                if(footerCfg){
-                    if (!footer) {
-                        footer = new Node("<div class='"+ prefix +"combobox-menu-footer'></div>").appendTo(menuEl);
-                    }
-                    footer.empty().append(footerCfg.tmpl);
-                    var historyClean = footer.one("."+ prefix +"menu-history-clean");
-                    if(historyClean){
-                        historyClean.on("click",function(e){
-                            e.halt();
-                            var History = self.getPlugin("history");
-                            History._cleanHistory();
-                        })
-                    }
-                    var tdgBtn = footer.one(".tdg-btn");
-                    if(tdgBtn){
-                        tdgBtn.on("click",function(){
-                            var tdgInputs = Node.all(".tdg-input",footer),
-                                tdgArr = [],val="",
-                                tdgQueryInput = Node.one(".tdg-query",footer);
-                            tdgInputs.each(function(node){
-                                val = node.val();
-                                if(val){
-                                    tdgArr.push(val);
-                                }
-                            })
-                            tdgQueryInput.val(tdgArr.join(" + "));
-                        })
-
-                    }
-                    var jpBtn = Node.one(".jp-btn",footer);
-                    if(jpBtn){
-                        jpBtn.on("click",function(){
-                            var inputs = Node.all("input",footer),
-                                jpArr = [],jpEtArr=["tbsearch"],val = "";
-                            inputs.each(function(node){
-                                val = node.val();
-                                if(val){
-                                    if(node.hasClass("J_Jp-query")){
-                                        jpArr.push(val);
-                                    }
-                                }
-                                //当用户只输入两个input时，没有填写的需要一个空值
-                                if(node.hasClass("J_Jp-et")){
-                                    jpEtArr.push(val||"");
-                                }
-
-                            })
-                            Node.one("#J_JiPiaoForm",footer).val(jpArr.join(" "));
-                            Node.one("#J_JipiaoEt",footer).val(jpEtArr.join("|"));
-                        })
-                    }
-                }else{
-                    footer&&footer.remove();
+                //如果头尾的内容没换
+                if(lastHeaderCfg !== headerCfg){
+                    self.__lastHeader = headerCfg;
+                    self._renderHeader(header,headerCfg,menuEl);
                 }
-                if(headerCfg){
-                    if (!header) {
-                        header = new Node("<div class='"+ prefix +"combobox-menu-header'></div>").prependTo(menuEl);
-                    }
-                    header.empty().append(headerCfg.tmpl);
-                }else{
-                    header&&header.remove();
+                if(lastFooterCfg !== footerCfg){
+                    self.__lastFooter = footerCfg;
+                    self._renderFooter(footer,footerCfg,menuEl);
                 }
+
+
+
             }
             else{
                 self.__header = null;

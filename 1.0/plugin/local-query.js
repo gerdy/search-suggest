@@ -43,7 +43,10 @@ KISSY.add(function (S,Base,Event,Storage, undefined) {
                 name = config.name||self.get("name"),
                 tab = config.tab||self.get("tab"),
                 user = config.user||self.get("user");
-            storageKey = prefix + name + tab + user;
+            storageKey = prefix + name + tab + user
+            self.set("tab",tab);
+            self.set("name",name);
+            self.set("user",user);
             datalist = null;
         },
         _save:function(key, value){

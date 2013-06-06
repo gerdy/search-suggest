@@ -21,12 +21,17 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
                 }
             });
             caller.on("beforeSubmit",function(){
-                var savedVal = comboBox.get("input").val();
-                var localQueryInst = self.historyLocalQuery;
+                var savedVal = comboBox.get("input").val(),localQueryInst;
+                if(S.trim(savedVal) === ""){
+                    return;
+                }
+                localQueryInst = self.historyLocalQuery;
                 if(localQueryInst){
-                    localQueryInst._setKey({
-                        name:"pinyin"
-                    });
+                    if(/*sugConfig.tab === "item"*/1){
+                        localQueryInst._setKey({
+                            name:"pinyin"
+                        });
+                    }
                     localQueryInst.save(savedVal,S.trim(savedVal));
 
                     localQueryInst._setKey({
@@ -51,6 +56,11 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
                         if(/[\u4e00-\u9fa5]/.test(text)){
                             self._getPinyin(list[0].key);
                             localQueryInst.clearByDay(0);
+                        }else{
+                            localQueryInst._setKey({
+                                name: 'history'
+                            })
+                            localQueryInst.save(text,S.trim(text));
                         }
                     }
                     localQueryInst._setKey({
@@ -212,16 +222,6 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
                         "sourceUrl":"http://suggest.taobao.com/sug?area=ssrch",
                         "tab":"item"
                     },
-                    "extra":{
-                        "tel": false,
-                        "cat": false,
-                        "new": false,
-                        "history": true,
-                        "jipiao": false,
-                        "shop": false,
-                        "tdg": false,
-                        "showExtra": true
-                    },
                     "action":"http://shopsearch.taobao.com/search?"
                 }
          */
@@ -229,6 +229,7 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
             var self = this,
                 index = encodeURI(config.sugConfig.tab);
             self.historyLocalQuery._setKey({tab:index});
+            self._getPinyinQuery();
         }
     },{
         ATTRS:{
