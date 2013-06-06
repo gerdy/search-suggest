@@ -186,6 +186,8 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 holderSpan = holderLabel.one("span");
                 //获取底纹的query
                 if(holderSpan){
+                    //如果默认搜索底纹，需要隐藏底纹
+                    holderLabel.hide();
                     self._holderJump(form,holderSpan.text());
                 }
             }else{
@@ -211,6 +213,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             //给name = q 的隐藏域赋值
             var q = form[0].q;
             if(q) q.value = query;
+
             form.append('<input type="hidden" name="style" value="grid" />');
 
         },
