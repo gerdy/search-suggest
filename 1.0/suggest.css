@@ -16,6 +16,8 @@
     outline: none;
     position: absolute;
     z-index: 99999;
+    left:-9999px;
+    top:-9999px;
 }
 
 .search-menuitem {

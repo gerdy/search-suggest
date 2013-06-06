@@ -87,10 +87,12 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
                     tmpl: '<div class="history-box"><span>搜索历史</span></div>',
                     type: 'history'
                 };
+                caller.__footer = null;
+                /*
                 caller.__footer = {
                     tmpl: '<div class="history-box"><a href="javascript:;" class="'+ prefix +'menu-history-clean">清空搜索历史</a></div>',
                     type: 'history'
-                };
+                };*/
                 historyItemNum= 10;
             }else{
                 caller.__header = null;

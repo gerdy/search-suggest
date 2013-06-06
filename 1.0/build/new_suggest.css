@@ -26,6 +26,8 @@
     line-height: 22px;
     white-space: nowrap;
     height: 24px;
+    left:-9999px;
+    top:-9999px;
 }
 
 .search-menuitem-disabled .search-menuitem-content {
@@ -33,11 +35,8 @@
 }
 
 .search-combobox {
-    /*clear float*/
-    zoom: 1;
     font-size: 12px;
 }
-
 
 .search-combobox-trigger {
     text-decoration: none;

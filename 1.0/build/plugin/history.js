@@ -485,10 +485,12 @@ KISSY.add('gallery/search-suggest/1.0/plugin/history',function (S,Base,Event,Loc
                     tmpl: '<div class="history-box"><span>搜索历史</span></div>',
                     type: 'history'
                 };
+                caller.__footer = null;
+                /*
                 caller.__footer = {
                     tmpl: '<div class="history-box"><a href="javascript:;" class="'+ prefix +'menu-history-clean">清空搜索历史</a></div>',
                     type: 'history'
-                };
+                };*/
                 historyItemNum= 10;
             }else{
                 caller.__header = null;
