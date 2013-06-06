@@ -126,6 +126,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                     }else{
                         return false;
                     }
+                }
             }
         },
         /**
