@@ -165,7 +165,10 @@ KISSY.add('gallery/search-suggest/1.0/plugin/local-query',function (S,Base,Event
                 name = config.name||self.get("name"),
                 tab = config.tab||self.get("tab"),
                 user = config.user||self.get("user");
-            storageKey = prefix + name + tab + user;
+            storageKey = prefix + name + tab + user
+            self.set("tab",tab);
+            self.set("name",name);
+            self.set("user",user);
             datalist = null;
         },
         _save:function(key, value){

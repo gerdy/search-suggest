@@ -166,7 +166,10 @@ KISSY.add('gallery/search-suggest/1.0/plugin/local-query',function (S,Base,Event
                 name = config.name||self.get("name"),
                 tab = config.tab||self.get("tab"),
                 user = config.user||self.get("user");
-            storageKey = prefix + name + tab + user;
+            storageKey = prefix + name + tab + user
+            self.set("tab",tab);
+            self.set("name",name);
+            self.set("user",user);
             datalist = null;
         },
         _save:function(key, value){
@@ -414,12 +417,17 @@ KISSY.add('gallery/search-suggest/1.0/plugin/history',function (S,Base,Event,Loc
                 }
             });
             caller.on("beforeSubmit",function(){
-                var savedVal = comboBox.get("input").val();
-                var localQueryInst = self.historyLocalQuery;
+                var savedVal = comboBox.get("input").val(),localQueryInst;
+                if(S.trim(savedVal) === ""){
+                    return;
+                }
+                localQueryInst = self.historyLocalQuery;
                 if(localQueryInst){
-                    localQueryInst._setKey({
-                        name:"pinyin"
-                    });
+                    if(/*sugConfig.tab === "item"*/1){
+                        localQueryInst._setKey({
+                            name:"pinyin"
+                        });
+                    }
                     localQueryInst.save(savedVal,S.trim(savedVal));
 
                     localQueryInst._setKey({
@@ -444,6 +452,11 @@ KISSY.add('gallery/search-suggest/1.0/plugin/history',function (S,Base,Event,Loc
                         if(/[\u4e00-\u9fa5]/.test(text)){
                             self._getPinyin(list[0].key);
                             localQueryInst.clearByDay(0);
+                        }else{
+                            localQueryInst._setKey({
+                                name: 'history'
+                            })
+                            localQueryInst.save(text,S.trim(text));
                         }
                     }
                     localQueryInst._setKey({
@@ -605,16 +618,6 @@ KISSY.add('gallery/search-suggest/1.0/plugin/history',function (S,Base,Event,Loc
                         "sourceUrl":"http://suggest.taobao.com/sug?area=ssrch",
                         "tab":"item"
                     },
-                    "extra":{
-                        "tel": false,
-                        "cat": false,
-                        "new": false,
-                        "history": true,
-                        "jipiao": false,
-                        "shop": false,
-                        "tdg": false,
-                        "showExtra": true
-                    },
                     "action":"http://shopsearch.taobao.com/search?"
                 }
          */
@@ -622,6 +625,7 @@ KISSY.add('gallery/search-suggest/1.0/plugin/history',function (S,Base,Event,Loc
             var self = this,
                 index = encodeURI(config.sugConfig.tab);
             self.historyLocalQuery._setKey({tab:index});
+            self._getPinyinQuery();
         }
     },{
         ATTRS:{
