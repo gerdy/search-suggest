@@ -245,11 +245,10 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
         },
         redirect: function(url) {
             var a = document.createElement("a");
-            /*
             if(!a.click) { //only IE has this (at the moment);
                 window.location = url;
                 return;
-            }*/
+            }
             a.setAttribute("href", url);
             a.style.display = "none";
             document.body.appendChild(a); //prototype shortcut

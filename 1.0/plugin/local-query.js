@@ -32,6 +32,7 @@ KISSY.add(function (S,Base,Event,Storage, undefined) {
                 name=self.get('name'),
                 tab = self.get('tab'),
                 user=self.get('user');
+            if(tab === "item") tab = "baobei";
             storageKey=prefix+name+tab+user;
             self._getStorage();
         },
@@ -43,7 +44,8 @@ KISSY.add(function (S,Base,Event,Storage, undefined) {
                 name = config.name||self.get("name"),
                 tab = config.tab||self.get("tab"),
                 user = config.user||self.get("user");
-            storageKey = prefix + name + tab + user
+            if(tab === "item") tab = "baobei";
+            storageKey = prefix + name + tab + user;
             self.set("tab",tab);
             self.set("name",name);
             self.set("user",user);
