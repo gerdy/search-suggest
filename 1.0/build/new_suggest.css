@@ -152,10 +152,11 @@
 .search-contentbox .search-menu-extras-xp .search-menu-xp-icon,
 .search-contentbox .search-menu-extras-dp .search-menu-dp-icon {
     float: left;
-    width: 25px;
+    width: 20px;
+    margin-right: 5px;
     height: 24px;
     font-size: 0px;
-    background: url(http://img04.taobaocdn.com/tps/i4/T1Fg6QXg4bXXaTNmze-40-14.png) no-repeat;
+    background: transparent url(http://img04.taobaocdn.com/tps/i4/T1Fg6QXg4bXXaTNmze-40-14.png) no-repeat;
 }
 .search-contentbox .search-menu-extras-xp .search-menu-xp-icon {
     background-position: 5px 5px;

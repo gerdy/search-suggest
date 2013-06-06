@@ -373,15 +373,16 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 indexVal;
             //每次渲染的时候,获取一个query值
             self.query = query;
-            for(var i in renderIndex){
+            for(var i = 0, renderLen = renderIndex.length -1; i <= renderLen; i ++){
                 indexVal = renderIndex[i];
                 //如果always为真,则一直都执行
-                //
+
+                if(!indexVal) continue;
                 if(indexVal === "list"){
                     self._list(query,results);
                     continue;
                 }
-                if(i !== "-1"){
+                if(i !== -1){
                     plugin = self.getPlugin(indexVal);
                     if(plugin&&plugin.renderPlugin){
                         plugin.renderPlugin();
@@ -606,7 +607,9 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
         _renderHeader: function(header,headerCfg,context){
             if(headerCfg){
                 var prefix = this.get("sugConfig").prefixCls;
-                header = new Node("<div class='"+ prefix +"combobox-menu-header'></div>").prependTo(context);
+                if(!header){
+                    header = new Node("<div class='"+ prefix +"combobox-menu-header'></div>").prependTo(context);
+                }
                 header.empty().append(headerCfg.tmpl);
             }else{
                 header&&header.remove();
@@ -622,7 +625,9 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
         _renderFooter: function(footer,footerCfg,context){
             var self = this,prefix = self.get("sugConfig").prefixCls;
             if(footerCfg){
-                footer = new Node("<div class='"+ prefix +"combobox-menu-footer'></div>").appendTo(context);
+                if(!footer){
+                    footer = new Node("<div class='"+ prefix +"combobox-menu-footer'></div>").appendTo(context);
+                }
                 footer.empty().append(footerCfg.tmpl);
                 var historyClean = footer.one("."+ prefix +"menu-history-clean");
                 if(historyClean){
@@ -703,9 +708,6 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                     self.__lastFooter = footerCfg;
                     self._renderFooter(footer,footerCfg,menuEl);
                 }
-
-
-
             }
             else{
                 self.__header = null;
