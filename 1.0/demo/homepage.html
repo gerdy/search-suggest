@@ -103,8 +103,7 @@
                     index: !!(window.TB&&window.TB.Global.isLogin())&&1
                 }),
                 new Tab({
-                    "activeCls": "selected",
-                    "node":"#J_SearchTab li"
+                    "activeCls": "selected"
                 }),
                 new Telephone({
                     index: !!(window.TB&&window.TB.Global.isLogin())&&2
@@ -115,7 +114,8 @@
                 sourceUrl: "http://suggest.taobao.com/sug?k=1",
                 node: "#q",
                 focused: true,
-                "excludeParam":["q"]
+                "excludeParam":["q"],
+                "tablist":"#J_SearchTab li"
             },
             "mods":{
                 "showExtra":true

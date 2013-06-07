@@ -60,7 +60,8 @@ KISSY.add('gallery/search-suggest/1.0/plugin/tab',function(S,Base,DOM,Event,Comb
         _initPluginEvent: function(sug){
             var self = this,
                 activeCls = self.get("activeCls"),
-                selectors = self.get("node");
+                //兼容线上的写法
+                selectors = self.get("node")||sug.get("sugConfig").tablist;
             self.set("caller",sug);
             if(!selectors) return;
             Event.on(selectors,"click",self.tabClick,self);
