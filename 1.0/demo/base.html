@@ -11,13 +11,13 @@
 
 <div class="search" id="J_Search" role="search">
     <div class="search-panel ks-switchable-content search-panel-two-buttons">
-        <form target="_top" action="http://s.taobao.com/search" name="search" id="J_TSearchForm" class="search-panel-focused">
+        <form target="_top" data-defaultpage="http://s.taobao.com" action="http://s.taobao.com/search" name="search" id="J_TSearchForm" class="search-panel-focused">
             <div class="search-button">
                 <button class="btn-search" type="submit">搜 索</button>
                 <button class="btn-searchshop" type="submit">搜 索</button>
             </div>
             <div class="search-panel-fields">
-                <label for="q"><!-- TMS fp2012/search_tips.php -->搜“<span>家装节</span>”试试，3折起盛宴！<!-- END --></label>
+                <label for="q"><!-- TMS fp2012/search_tips.php -->搜“<span></span>”试试，3折起盛宴！<!-- END --></label>
                 <input id="q" name="q" accesskey="s" autofocus="true" autocomplete="off" x-webkit-speech=""
                        x-webkit-grammar="builtin:translate">
             </div>
@@ -55,14 +55,15 @@
         }
     }
     //代码开始
-    S.use('dom,gallery/searchbox/1.0/,gallery/searchbox/1.0/plugin/history,gallery/searchbox/1.0/plugin/tab,gallery/searchbox/1.0/plugin/telephone,gallery/searchbox/1.0/new_suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
+    S.use('dom,gallery/search-suggest/1.0/,gallery/search-suggest/1.0/plugin/history,gallery/search-suggest/1.0/plugin/tab,gallery/search-suggest/1.0/plugin/telephone,gallery/search-suggest/1.0/new_suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
         var sug = new SearchSuggest({
             plugins:[
                 new History({
                     index: !!(window.TB&&window.TB.Global.isLogin())&&1
                 }),
                 new Tab({
-                    "activeCls": "selected"
+                    "activeCls": "selected",
+                    "node":"#J_SearchTab li"
                 }),
                 new Telephone({
                     index: !!(window.TB&&window.TB.Global.isLogin())&&2
@@ -72,9 +73,7 @@
                 extraParams: "",
                 sourceUrl: "http://suggest.taobao.com/sug",
                 node: "#q",
-                focused: true,
-                //由于只支持简单的选择器，所以给这里加一个id
-                tablist: "#J_SearchTab li"
+                focused: true
             },
             "mods":{
                 "showExtra":true

@@ -32,6 +32,19 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             };
         },
         /**
+         * 增加一个检测tab是否存在的功能
+         * @private
+         */
+        _checkHasTab:function(){
+            var self = this,
+                hasTab = self.getPlugin("tab");
+            //如果tab组件不存在，则检查form上是否有相应属性
+            //如：data-defaultpage
+            if(!hasTab){
+                self.tabNode = self.comboBox.get("input").parent("form");
+            }
+        },
+        /**
          * 绑定combo的事件
          * @private
          */
@@ -98,6 +111,25 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             })
         },
         /**
+         * 当空query时跳转时，走默认页面
+         * @param form
+         * @returns {boolean}
+         * @private
+         */
+        _defaultPageJump: function(form){
+            var self = this,emptyAction,
+                tab = self.tabNode;
+            if(!tab) return false;
+            emptyAction = tab.attr("data-defaultpage");
+            if(emptyAction){
+                if(S.startsWith(emptyAction,"http")){
+                    form.attr("action",emptyAction);
+                }else{
+                    return false;
+                }
+            }
+        },
+        /**
          * 当form为空时的跳转事件
          * @param form
          * @returns {boolean}  如果为false则终止跳转
@@ -106,27 +138,23 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
         _emptyJump: function(form){
             var self = this,
                 holderLabel = form.one("label"),
-                holderSpan = holderLabel.one("span"),
-                emptyAction,
+                holderSpan,
                 //获取当前所在tab
                 sugConfig = self.get("sugConfig"),
-                tab = sugConfig.tab,
-                tabSel = sugConfig.tablist;
+                tab = sugConfig.tab;
             //如果存在底纹
             //获取底纹的query
-            if(holderSpan&&holderSpan.text()!=="" && tab === "item"){
-                //如果默认搜索底纹，需要隐藏底纹
-                holderLabel.hide();
-                self._holderJump(form,holderSpan.text());
-            }else{
-                emptyAction = (self.tabNode||form).attr("data-defaultpage");
-                if(emptyAction){
-                    if(S.startsWith(emptyAction,"http")){
-                        form.attr("action",emptyAction);
-                    }else{
-                        return false;
-                    }
+            if(holderLabel){
+                holderSpan = holderLabel.one("span");
+                if(holderSpan&&holderSpan.text()!=="" && tab === "item"){
+                    //如果默认搜索底纹，需要隐藏底纹
+                    holderLabel.hide();
+                    self._holderJump(form,holderSpan.text());
+                }else{
+                    return self._defaultPageJump(form);
                 }
+            }else{
+                return self._defaultPageJump(form);
             }
         },
         /**
@@ -318,6 +346,8 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             var comboBox = new ComboBox(comboBoxCfg);
             comboBox.render();
             self.comboBox = comboBox;
+            //增加一个判断是否存在tab
+            self._checkHasTab();
             //初始化comboBox的事件
             self._initComboEvent();
         },
@@ -740,7 +770,6 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 autoCollapsed: true,
                 focused: false,
                 prefixCls:"search-",
-                tablist: null,
                 excludeParam:[],
                 //默认的显示格式
                 "resultFormat": '约{count}个宝贝'

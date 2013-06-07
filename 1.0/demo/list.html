@@ -75,7 +75,8 @@
                     index: !!(window.TB&&window.TB.Global.isLogin())&&1
                 }),
                 new Tab({
-                    "activeCls": "selected"
+                    "activeCls": "selected",
+                    "node":"#J_SearchTab li"
                 }),
                 new Telephone({
                     index: !!(window.TB&&window.TB.Global.isLogin())&&2
@@ -85,9 +86,7 @@
                 extraParams: "",
                 sourceUrl: "http://suggest.taobao.com/sug",
                 node: "#q",
-                focused: true,
-                //由于只支持简单的选择器，所以给这里加一个id
-                tablist: "#J_SearchTab li"
+                focused: true
             },
             "mods":{
                 "showExtra":true

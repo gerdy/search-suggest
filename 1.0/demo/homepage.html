@@ -16,11 +16,11 @@
                     href="" data-spm-anchor-id="1.1000386.0.34">宝贝</a><!--[if lt IE 9]><s
                     class="search-fix search-fix-triggerlt"></s><s class="search-fix search-fix-triggerrt"></s>
                 <![endif]--></li>
-            <li data-searchtype="mall" data-defaultpage="http://www.tmall.com" data-action="http://list.tmall.com/search_product.htm"><a href=""
+            <li data-searchtype="mall" data-action="http://list.tmall.com/search_product.htm"><a href=""
                                                                                                  data-spm-anchor-id="1.1000386.0.35">天猫</a>
                 <!--[if lt IE 9]><s class="search-fix search-fix-triggerlt"></s><s
                         class="search-fix search-fix-triggerrt"></s><![endif]--></li>
-            <li data-searchtype="shop" data-defaultpage="http://shopsearch.taobao.com" data-action="http://shopsearch.taobao.com/browse/shop_search.htm"><a
+            <li data-searchtype="shop" data-action="http://shopsearch.taobao.com/browse/shop_search.htm"><a
                     href="">店铺</a><!--[if lt IE 9]><s class="search-fix search-fix-triggerlt"></s><s
                     class="search-fix search-fix-triggerrt"></s><![endif]--></li>
         </ul>
@@ -44,7 +44,7 @@
             <![endif]-->
         </form>
     </div>
-    <div>
+    <div style="clear:both;">
         <p>sdfsdfsdfdsf</p>
         <p>sdfsdfsdfdsf</p>
         <p>sdfsdfsdfdsf</p>
@@ -103,7 +103,8 @@
                     index: !!(window.TB&&window.TB.Global.isLogin())&&1
                 }),
                 new Tab({
-                    "activeCls": "selected"
+                    "activeCls": "selected",
+                    "node":"#J_SearchTab li"
                 }),
                 new Telephone({
                     index: !!(window.TB&&window.TB.Global.isLogin())&&2
@@ -114,8 +115,6 @@
                 sourceUrl: "http://suggest.taobao.com/sug?k=1",
                 node: "#q",
                 focused: true,
-                //由于只支持简单的选择器，所以给这里加一个id
-                tablist: "#J_SearchTab li",
                 "excludeParam":["q"]
             },
             "mods":{

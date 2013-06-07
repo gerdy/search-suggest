@@ -26,7 +26,8 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
 
             DOM.removeClass(DOM.siblings(target),activeCls);
             DOM.addClass(target,activeCls);
-
+            //切换时，将tabNode设为当前值
+            sug.tabNode = S.one(target);
             //配置form的data-empty
             dataEmpty&&form.setAttribute("data-defaultpage",dataEmpty);
             dataAction&&form.setAttribute("action",dataAction);
@@ -52,9 +53,8 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
         },
         _initPluginEvent: function(sug){
             var self = this,
-                sugCfg = sug.get("sugConfig"),
                 activeCls = self.get("activeCls"),
-                selectors = sugCfg.tablist,tabActive;
+                selectors = self.get("node");
             self.set("caller",sug);
             if(!selectors) return;
             Event.on(selectors,"click",self.tabClick,self);
