@@ -106,20 +106,18 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
         _emptyJump: function(form){
             var self = this,
                 holderLabel = form.one("label"),
-                holderSpan,emptyAction,
+                holderSpan = holderLabel.one("span"),
+                emptyAction,
                 //获取当前所在tab
                 sugConfig = self.get("sugConfig"),
                 tab = sugConfig.tab,
                 tabSel = sugConfig.tablist;
             //如果存在底纹
-            if(holderLabel && tab === "item"){
-                holderSpan = holderLabel.one("span");
-                //获取底纹的query
-                if(holderSpan&&holderSpan.text()!==""){
-                    //如果默认搜索底纹，需要隐藏底纹
-                    holderLabel.hide();
-                    self._holderJump(form,holderSpan.text());
-                }
+            //获取底纹的query
+            if(holderSpan&&holderSpan.text()!=="" && tab === "item"){
+                //如果默认搜索底纹，需要隐藏底纹
+                holderLabel.hide();
+                self._holderJump(form,holderSpan.text());
             }else{
                 emptyAction = (self.tabNode||form).attr("data-defaultpage");
                 if(emptyAction){
