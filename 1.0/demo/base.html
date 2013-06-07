@@ -47,12 +47,12 @@
             ]
         });
         window.TB = {
-            Global: {
-                isLogin: function () {
-                    return true;
+            Global:{
+                isLogin: function(){
+                    return location.search.indexOf("login") > -1
                 }
             }
-        };
+        }
     }
     //代码开始
     S.use('dom,gallery/searchbox/1.0/,gallery/searchbox/1.0/plugin/history,gallery/searchbox/1.0/plugin/tab,gallery/searchbox/1.0/plugin/telephone,gallery/searchbox/1.0/new_suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){

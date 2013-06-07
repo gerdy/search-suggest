@@ -185,7 +185,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             if(holderLabel && tab === "item"){
                 holderSpan = holderLabel.one("span");
                 //获取底纹的query
-                if(holderSpan){
+                if(holderSpan&&holderSpan.text()!==""){
                     //如果默认搜索底纹，需要隐藏底纹
                     holderLabel.hide();
                     self._holderJump(form,holderSpan.text());
@@ -309,15 +309,29 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
         _prepareHtml: function(seletor,wrapCls){
             var wrapTpl = '<div class="{cls}combobox"><div class="{cls}combobox-input-wrap"></div></div>',
                 wrapHtml = wrapTpl.replace(/{cls}/g,wrapCls),
-                wrapper = DOM.create(wrapHtml);
-            DOM.addClass(seletor,wrapCls + "combobox-input");
-            DOM.attr(seletor,{
-                "aria-haspopup":"true",
-                "aria-combobox":"list",
-                "role":"combobox",
-                "autocomplete":"off"
-            });
+                wrapper = DOM.create(wrapHtml),
+                historyPlugin = this.getPlugin("history"),
+                seletorCfg = {
+                    "aria-haspopup":"true",
+                    "aria-combobox":"list",
+                    "role":"combobox",
+                    "autocomplete":"off",
+                    "class":wrapCls + "combobox-input"
+                },isLogin;
+            //如果不存在aria-label标签
+            //并且历史记录插件存在，并且历史记录的index为真
+            if(!DOM.attr(seletor,"aria-label")){
+                if(historyPlugin && !!historyPlugin.get("index")){
+                    seletorCfg["aria-label"] = "请输入搜索文字或从搜索历史中选择";
+                }else{
+                    seletorCfg["aria-label"] = "请输入搜索文字";
+                }
+            }
+            DOM.attr(seletor,seletorCfg);
             DOM.wrap(seletor,wrapper);
+            if(this.get("sugConfig").focused){
+                DOM.get(seletor).focus();
+            }
             return Node.one("."+wrapCls+"combobox");
         },
         /**
@@ -367,7 +381,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             dataSource = new ComboBox.RemoteDataSource(dataSourceCfg);
             self._setComboCache(dataSource);
             //使用当前实例的配置来覆盖comboBox的配置
-            comboBoxCfg.focused = sugCfg.focused;
+            //comboBoxCfg.focused = sugCfg.focused;
             comboBoxCfg.srcNode = self._prepareHtml(sugCfg.node,sugCfg.prefixCls);
             comboBoxCfg.dataSource = dataSource;
             comboBoxCfg.format = S.bind(self.format,self);
@@ -378,7 +392,6 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
             self.comboBox = comboBox;
             //初始化comboBox的事件
             self._initComboEvent();
-            //comboBox.get("input")[0].focus();
         },
         /**
          * 当实例需要更新配置，调用本方法
@@ -842,6 +855,12 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
     }});
     return SearchSuggest;
 }, {requires:['node', 'rich-base','dom','combobox','./plugin/mods']});
+/**
+ * changelog
+ * 增加了对aria-label的判断，如果没有label则自动创建
+ * fixed 底纹的判断逻辑导致当空query时没有跳到defaultpage页面
+ */
+
 
 
 

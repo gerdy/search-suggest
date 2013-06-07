@@ -12,7 +12,7 @@
 <div class="search" id="J_Search" role="search">
     <div class="search-triggers">
         <ul class="ks-switchable-nav" id="J_SearchTab">
-            <li data-searchtype="item" data-action="http://s.taobao.com" data-defaultpage="http://list.taobao.com/browse/cat-0.htm" class="selected"><a
+            <li data-searchtype="item"  data-defaultpage="http://list.taobao.com/browse/cat-0.htm" class="selected"><a
                     href="" data-spm-anchor-id="1.1000386.0.34">宝贝</a><!--[if lt IE 9]><s
                     class="search-fix search-fix-triggerlt"></s><s class="search-fix search-fix-triggerrt"></s>
                 <![endif]--></li>
@@ -31,7 +31,7 @@
                 <button class="btn-search" type="submit">搜 索</button>
             </div>
             <div class="search-panel-fields search-common-panel">
-                <input id="q" name="q" accesskey="s" autofocus="true" autocomplete="off" x-webkit-speech=""
+                <input id="q" name="q" aria-label="请输入搜索文字" accesskey="s" autofocus="true" autocomplete="off" x-webkit-speech=""
                        x-webkit-grammar="builtin:translate">
             </div>
             <input type="hidden" name="commend" value="all">
@@ -42,6 +42,32 @@
             <!--[if lt IE 9]><s class="search-fix search-fix-panellt"></s><s class="search-fix search-fix-panellb"></s>
             <![endif]-->
         </form>
+    </div>
+    <div>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
+        <p>sdfsdfsdfdsf</p>
     </div>
 </div>
 <script>
@@ -63,7 +89,7 @@
     window.TB = {
         Global:{
             isLogin: function(){
-                return true;
+                return location.search.indexOf("login") > -1
             }
         }
     }

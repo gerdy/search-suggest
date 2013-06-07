@@ -4,6 +4,11 @@ combined files :
 gallery/search-suggest/1.0/plugin/tab
 
 */
+/**
+ * @fileoverview search-suggest的tab插件
+ * @author gerdy<gerdyhk@gmail.com>
+ * @module searchSuggest
+ */
 KISSY.add('gallery/search-suggest/1.0/plugin/tab',function(S,Base,DOM,Event,ComboBox){
     function Tab(config) {
         Tab.superclass.constructor.call(this, config || {});
@@ -34,7 +39,9 @@ KISSY.add('gallery/search-suggest/1.0/plugin/tab',function(S,Base,DOM,Event,Comb
 
             if(type){
                 tabCfg = self.getDefCfg(type);
-                tabCfg.action = dataAction;
+                if(dataAction){
+                    tabCfg.action = dataAction;
+                }
                 sug.update(tabCfg);
             }else{
                 var query = sug.query||input.val(),
@@ -241,4 +248,8 @@ KISSY.add('gallery/search-suggest/1.0/plugin/tab',function(S,Base,DOM,Event,Comb
     return Tab;
 },{
     requires:["base","dom","event","combobox"]
-})
+});
+/**
+ * changelog
+ * fixed增加容错，当页面的tab未配置data-action时，调用默认的action参数
+ */

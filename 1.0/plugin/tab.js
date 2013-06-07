@@ -1,3 +1,8 @@
+/**
+ * @fileoverview search-suggest的tab插件
+ * @author gerdy<gerdyhk@gmail.com>
+ * @module searchSuggest
+ */
 KISSY.add(function(S,Base,DOM,Event,ComboBox){
     function Tab(config) {
         Tab.superclass.constructor.call(this, config || {});
@@ -28,7 +33,9 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
 
             if(type){
                 tabCfg = self.getDefCfg(type);
-                tabCfg.action = dataAction;
+                if(dataAction){
+                    tabCfg.action = dataAction;
+                }
                 sug.update(tabCfg);
             }else{
                 var query = sug.query||input.val(),
@@ -235,4 +242,8 @@ KISSY.add(function(S,Base,DOM,Event,ComboBox){
     return Tab;
 },{
     requires:["base","dom","event","combobox"]
-})
+});
+/**
+ * changelog
+ * fixed增加容错，当页面的tab未配置data-action时，调用默认的action参数
+ */
