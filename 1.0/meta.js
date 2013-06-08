@@ -1,9 +1,3 @@
-/*
-combined files : 
-
-gallery/search-suggest/1.0/meta
-
-*/
 KISSY.config({
     'gallery/search-suggest/1.0/index': {requires: ['node', 'rich-base','dom','combobox']},
     'gallery/search-suggest/1.0/plugin/history': {requires: ["base","event","./local-query"]},

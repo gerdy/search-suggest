@@ -49,7 +49,12 @@ module.exports = function(grunt) {
                     {
                         src: "<%= pkg.version %>/plugin/telephone.js",
                         dest: "<%= pkg.version %>/build/plugin/telephone.js"
+                    },
+                    {
+                        src: "<%= pkg.version %>/meta.js",
+                        dest: "<%= pkg.version %>/build/meta.js"
                     }
+
 
                 ]
             }
@@ -71,7 +76,8 @@ module.exports = function(grunt) {
                     '<%= pkg.version %>/build/plugin/local-query-min.js': ['<%= pkg.version %>/build/plugin/local-query.js'],
                     '<%= pkg.version %>/build/plugin/storage-min.js': ['<%= pkg.version %>/build/plugin/storage.js'],
                     '<%= pkg.version %>/build/plugin/telephone-min.js': ['<%= pkg.version %>/build/plugin/telephone.js'],
-                    '<%= pkg.version %>/build/plugin/tips-notice-min.js': ['<%= pkg.version %>/build/plugin/tips-notice.js']
+                    '<%= pkg.version %>/build/plugin/tips-notice-min.js': ['<%= pkg.version %>/build/plugin/tips-notice.js'],
+                    '<%= pkg.version %>/build/meta-min.js': ['<%= pkg.version %>/build/meta.js']
                 }
             }
         },
