@@ -278,9 +278,9 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
             //并且历史记录插件存在，并且历史记录的index为真
             if(!DOM.attr(seletor,"aria-label")){
                 if(historyPlugin && !!historyPlugin.get("index")){
-                    seletorCfg["aria-label"] = "请输入搜索文字或从搜索历史中选择";
+                    seletorCfg["title"] = seletorCfg["aria-label"] = "请输入搜索文字或从搜索历史中选择";
                 }else{
-                    seletorCfg["aria-label"] = "请输入搜索文字";
+                    seletorCfg["title"] = seletorCfg["aria-label"] = "请输入搜索文字";
                 }
             }
             DOM.attr(seletor,seletorCfg);
@@ -449,6 +449,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                     }
                 }
             }
+            self.fire("afterQueryChange",{"query":query});
         },
         /**
          * 模块默认的渲染方法
@@ -793,6 +794,11 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 return this.comboBox.get("input");
             }
         },
+        form:{
+            getter:function(v){
+                return this.get("input").parent("form");
+            }
+        },
         dataSourceCfg:{
             value:{
                 xhrCfg:{
@@ -816,6 +822,9 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
  * changelog
  * 增加了对aria-label的判断，如果没有label则自动创建
  * fixed 底纹的判断逻辑导致当空query时没有跳到defaultpage页面
+ * 13-06-08
+ * 增加了一个afterQueryChange的事件，param为 {"query":1}
+ *
  */
 
 

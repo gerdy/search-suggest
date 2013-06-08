@@ -135,7 +135,10 @@
             DOM.css(label,{color:"#ccc"});
             form.className = "search-panel-focused";
 
-        })
+        });
+        sug.on("afterQueryChange",function(ev){
+            console.log(ev);
+        });
         var input = sug.get("input");
 
         input.on("input",function(ev){

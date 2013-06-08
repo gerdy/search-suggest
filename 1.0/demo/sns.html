@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="gbk"/>
-<title>新样式</title>
-<script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
+    <meta charset="gbk"/>
+    <title>新样式</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" charset="utf-8"></script>
     <link href="../new_searchbox.css" rel="stylesheet"/>
     <style>
             /* 顶部导航 */
@@ -157,45 +157,9 @@
         .mt-old-version a:hover {
             color: #FFe4b5;
         }
-        /*样式开始 */
+            /*样式开始 */
         .hide{
             display: none !important;
-        }
-        .search-sns-panel-field{
-            width: 322px;
-            float: right;
-            background: white;
-            height: 27px;
-            margin-top: 4px;
-            margin-right: 4px;
-        }
-        .search-sns-panel-field .search-panel-fields{
-            margin-right: 72px;
-        }
-        .search-sns-panel-field label{
-            top: 5px;
-        }
-        .search-sns-panel-field button.btn-search{
-            text-indent: 0;
-            font-size: 12px;
-            color: #666;
-            background: #f5f5f5;
-            height: 27px;
-            width: 72px;
-            border-left: 1px solid #d9d9d9;
-        }
-        .search-sns-panel-field .search-panel-fields{
-            height: 27px;
-        }
-        .search-sns-panel-field .ks-combobox{
-            margin-left: 0;
-        }
-        .search-sns-panel-field .ks-combobox-input-wrap{
-            height: 27px;
-         }
-        .search-sns-panel-field .ks-combobox-input{
-            top: 0;
-            background: white;
         }
     </style>
 </head>
@@ -275,7 +239,7 @@
         };
     }
     //代码开始
-    S.use('dom,gallery/searchbox/1.0/,gallery/searchbox/1.0/plugin/history,gallery/searchbox/1.0/plugin/tab,gallery/searchbox/1.0/plugin/telephone,gallery/searchbox/1.0/new_suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
+    S.use('dom,gallery/search-suggest/1.0/,gallery/search-suggest/1.0/plugin/history,gallery/search-suggest/1.0/plugin/tab,gallery/search-suggest/1.0/plugin/telephone,gallery/search-suggest/1.0/new_suggest.css',function(S,DOM,SearchSuggest,History,Tab,Telephone){
         var sug = new SearchSuggest({
             plugins:[
                 new History({
