@@ -1,7 +1,7 @@
 /**
  *  用于提供本地存储某些数据并且根据key值查询
  */
-KISSY.add(function (S,Base,Event,Storage, undefined) {
+KISSY.add(function (S,Base,Storage, undefined) {
     function LocalQuery(config) {
         LocalQuery.superclass.constructor.call(this, config || {});
         this.initialize();
@@ -270,5 +270,5 @@ KISSY.add(function (S,Base,Event,Storage, undefined) {
     });
     return LocalQuery;
 }, {
-    requires:["base","event","./storage"]
+    requires:["base","./storage"]
 });

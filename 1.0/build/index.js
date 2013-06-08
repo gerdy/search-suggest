@@ -67,7 +67,7 @@ KISSY.add('gallery/search-suggest/1.0/plugin/mods',function(){
         },
         "showExtra": false
     };
-})
+});
 /**
  * @fileoverview search-suggest的入口文件
  * @author gerdy<gerdyhk@gmail.com>

@@ -1,4 +1,4 @@
-KISSY.add(function (S,Event,Base,undefined) {
+KISSY.add(function (S,Base,undefined) {
     var inst;
     function Storage(config) {
         if(!inst){
@@ -112,4 +112,4 @@ KISSY.add(function (S,Event,Base,undefined) {
         }
     });
     return Storage;
-},{requires:['event','base']})
+},{requires:['base']})

@@ -60,4 +60,4 @@ KISSY.add(function(){
         },
         "showExtra": false
     };
-})
+});

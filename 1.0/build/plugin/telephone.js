@@ -5,7 +5,7 @@ gallery/search-suggest/1.0/plugin/storage
 gallery/search-suggest/1.0/plugin/telephone
 
 */
-KISSY.add('gallery/search-suggest/1.0/plugin/storage',function (S,Event,Base,undefined) {
+KISSY.add('gallery/search-suggest/1.0/plugin/storage',function (S,Base,undefined) {
     var inst;
     function Storage(config) {
         if(!inst){
@@ -119,7 +119,7 @@ KISSY.add('gallery/search-suggest/1.0/plugin/storage',function (S,Event,Base,und
         }
     });
     return Storage;
-},{requires:['event','base']})
+},{requires:['base']})
 KISSY.add('gallery/search-suggest/1.0/plugin/telephone',function (S,Base,Storage) {
     function Telephone(config) {
         Telephone.superclass.constructor.call(this, config || {});

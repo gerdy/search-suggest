@@ -5,7 +5,7 @@ gallery/search-suggest/1.0/plugin/storage
 gallery/search-suggest/1.0/plugin/local-query
 
 */
-KISSY.add('gallery/search-suggest/1.0/plugin/storage',function (S,Event,Base,undefined) {
+KISSY.add('gallery/search-suggest/1.0/plugin/storage',function (S,Base,undefined) {
     var inst;
     function Storage(config) {
         if(!inst){
@@ -119,11 +119,11 @@ KISSY.add('gallery/search-suggest/1.0/plugin/storage',function (S,Event,Base,und
         }
     });
     return Storage;
-},{requires:['event','base']})
+},{requires:['base']})
 /**
  *  用于提供本地存储某些数据并且根据key值查询
  */
-KISSY.add('gallery/search-suggest/1.0/plugin/local-query',function (S,Base,Event,Storage, undefined) {
+KISSY.add('gallery/search-suggest/1.0/plugin/local-query',function (S,Base,Storage, undefined) {
     function LocalQuery(config) {
         LocalQuery.superclass.constructor.call(this, config || {});
         this.initialize();
@@ -392,6 +392,6 @@ KISSY.add('gallery/search-suggest/1.0/plugin/local-query',function (S,Base,Event
     });
     return LocalQuery;
 }, {
-    requires:["base","event","./storage"]
+    requires:["base","./storage"]
 });
 
