@@ -1,4 +1,4 @@
-KISSY.config({
+KISSY.config("modules",{
     'gallery/search-suggest/1.0/index': {requires: ['node', 'rich-base','dom','combobox']},
     'gallery/search-suggest/1.0/plugin/history': {requires: ["base","event","./local-query"]},
     'gallery/search-suggest/1.0/plugin/telephone': {requires: ['base','./storage']},
