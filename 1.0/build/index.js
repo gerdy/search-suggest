@@ -259,7 +259,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
                 _form = DOM.parent(comboBox.get("el"),"form"),
                 _action = DOM.attr(_form,"action"),
                 dataAction = DOM.attr(_child,"data-action")||self.get("action")||_action,
-                otherQuery = "&wq=" + inputQuery +"&suggest_query=" + retQuery + "&source=suggest",
+                otherQuery = "&wq=" + inputQuery +"&suggest_query=" + retQuery + "&source=suggest&",
                 extraParam=self._getInputsVal(_form);
             //如果有?,则使用&连接,否则使用?
             if(dataAction.indexOf("?") > -1){
