@@ -507,6 +507,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                             html = S.substitute(tmpl,data);
                             self.addContent({
                                 "html":html,
+                                "query":query,
                                 "position": pos,
                                 "callback": config.callback
                             });
@@ -519,6 +520,7 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
                 html = S.substitute(tmpl,data);
                 self.addContent({
                     "html":html,
+                    "query":query,
                     "position": pos,
                     "callback": config.callback
                 });
@@ -824,7 +826,8 @@ KISSY.add(function (S, Node,RichBase,DOM,ComboBox,Mods) {
  * fixed 底纹的判断逻辑导致当空query时没有跳到defaultpage页面
  * 13-06-08
  * 增加了一个afterQueryChange的事件，param为 {"query":1}
- *
+ * 13-6-18
+ * fixed 在全球购搜索的跳转里，由于query参数为空，使用了不正确的query
  */
 
 
