@@ -271,10 +271,6 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
         },
         redirect: function(url) {
             var a = document.createElement("a");
-            if(!a.click) { //only IE has this (at the moment);
-                window.location = url;
-                return;
-            }
             a.setAttribute("href", url);
             a.setAttribute("target","_self");
             a.style.display = "none";
@@ -898,6 +894,7 @@ KISSY.add('gallery/search-suggest/1.0/index',function (S, Node,RichBase,DOM,Comb
  * 增加了一个afterQueryChange的事件，param为 {"query":1}
  * 13-6-18
  * fixed 在全球购搜索的跳转里，由于query参数为空，使用了不正确的query
+ * 点击下拉提示的跳转从location.href 改为模拟a跳转
  */
 
 

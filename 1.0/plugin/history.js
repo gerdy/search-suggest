@@ -108,9 +108,10 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
             var self = this,
                 caller = self.get("caller"),
                 node = e.target.get?e.target.get("el"):S.one(e.target),
-                savedVal = node.one(".item-text").text(),
+                itemText = node.one(".item-text"),
+                savedVal = itemText?itemText.text():undefined,
                 localQueryInst = self.historyLocalQuery;
-            if(localQueryInst){
+            if(localQueryInst && savedVal){
                 localQueryInst._setKey({
                     name:"pinyin"
                 });
@@ -242,4 +243,8 @@ KISSY.add(function (S,Base,Event,LocalQuery) {
     });
     return History;
 },{requires:["base","event","./local-query"]});
-
+/**
+ * changelog
+ * fixed 增加点击历史记录触发的容错
+ *
+ */
